@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Base Vaults — Research</title>
+<style>
+:root{--bg:#0b0b0d;--card:#141417;--muted:#1c1c20;--border:#2a2a31;--fg:#ededf0;--fg2:#9a9aa4;--fg3:#6a6a74;
+--accent:#34d399;--accent-dim:#34d39922;--amber:#f0b429;--mono:"SF Mono","JetBrains Mono",ui-monospace,monospace;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:880px;margin:0 auto;padding:64px 26px 80px}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+h1{font-size:30px;font-weight:600;letter-spacing:-.03em;margin:10px 0 10px;line-height:1.15}
+.lede{color:var(--fg2);font-size:15px;max-width:640px}
+.stats{display:flex;gap:26px;margin:22px 0 4px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px;color:var(--fg2)}
+.stats b{color:var(--fg);font-size:18px;font-weight:600;display:block;letter-spacing:-.02em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+a.card{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;text-decoration:none;color:inherit;transition:.15s}
+a.card:hover{border-color:var(--accent);background:#15211c}
+.card .k{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.card h2{font-size:17px;font-weight:600;display:flex;align-items:center;gap:7px}
+.card h2 .arr{color:var(--fg3);font-size:13px;transition:.15s}
+a.card:hover h2 .arr{color:var(--accent);transform:translate(2px,-2px)}
+.card p{color:var(--fg2);font-size:13px}
+.card .meta{margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--fg3)}
+.foot{margin-top:30px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--fg3)}
+.foot a{color:var(--accent);text-decoration:none}.foot a:hover{text-decoration:underline}
+.disc{margin-top:26px;font-size:12px;color:var(--fg2);background:var(--card);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:11px 14px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}h1{font-size:24px}}
+</style></head>
+<body><div class="wrap">
+  <div class="eyebrow">Research · Base L2</div>
+  <h1>Base Vaults — Research</h1>
+  <p class="lede">Censo y análisis de las oportunidades de inversión (vaults de rendimiento) en la red Base, con ≥ $500K de TVL. Datos verificados de DeFiLlama + APIs nativas de cada protocolo, con direcciones confirmadas on-chain.</p>
+  <div class="stats">
+    <div><b>95</b> vaults</div>
+    <div><b>29</b> protocolos</div>
+    <div><b>$2.15B</b> TVL</div>
+    <div><b>2026-05-27</b> snapshot</div>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="base_vaults_report.html">
+      <span class="k">Dashboard de datos</span>
+      <h2>Base Vault Market Report <span class="arr">↗</span></h2>
+      <p>Tabla interactiva de los 95 vaults: ordenable y filtrable por categoría, activo y riesgo. Incluye perfil de riesgo (Bajo/Medio/Alto), APYs, links a la app de cada protocolo y a BaseScan, y panel de revisión.</p>
+      <span class="meta">interactivo · ordenable · filtrable</span>
+    </a>
+    <a class="card" href="oportunidades_inversion.html">
+      <span class="k">Guía conceptual</span>
+      <h2>Oportunidades de inversión <span class="arr">↗</span></h2>
+      <p>Explicación de las familias de estrategias (lending, ahorro, optimizadores, restaking, LP/AMM, apalancamiento, RWA): qué son, cómo rinden, riesgos y ejemplos. Con mapa riesgo–rendimiento y tabla de vaults por categoría.</p>
+      <span class="meta">conceptual · en español</span>
+    </a>
+  </div>
+
+  <div class="foot">
+    <span>Descargas:</span>
+    <a href="base_vaults.csv" download>base_vaults.csv</a>
+    <span class="sep">·</span>
+    <a href="https://github.com/protofire/wadz-architecture" target="_blank" rel="noopener">repo de arquitectura (privado)</a>
+  </div>
+
+  <div class="disc">Material informativo y educativo — <b>no es asesoría financiera</b>. Los rendimientos son variables y no garantizados; los datos son un snapshot al 2026-05-27 y pueden haber cambiado.</div>
+</div></body></html>
