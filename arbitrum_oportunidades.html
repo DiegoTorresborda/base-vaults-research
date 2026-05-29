@@ -1,0 +1,319 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oportunidades de inversión DeFi en Arbitrum — Guía conceptual</title>
+<style>
+:root{--bg:#0b0b0d;--card:#141417;--muted:#1c1c20;--muted2:#232329;--border:#2a2a31;--bsoft:#22222820;
+--fg:#ededf0;--fg2:#9a9aa4;--fg3:#6a6a74;--accent:#34d399;--accent-dim:#34d39922;--amber:#f0b429;--rose:#fb7185;
+--mono:"SF Mono","JetBrains Mono",ui-monospace,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+header.top{position:sticky;top:0;z-index:30;background:rgba(11,11,13,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.top-inner{max-width:1080px;margin:0 auto;padding:13px 26px;display:flex;align-items:center;gap:10px}
+.logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;color:#06281d;font-weight:700;font-size:13px}
+.top h1{font-size:14.5px;font-weight:600}.top .sub{font-size:11px;color:var(--fg3);font-family:var(--mono)}
+main{max-width:1080px;margin:0 auto;padding:0 26px 80px}
+section{padding-top:46px;scroll-margin-top:64px}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--accent)}
+.hero{padding:44px 0 6px}
+.hero h2{font-size:30px;font-weight:600;letter-spacing:-.03em;margin:8px 0 8px;line-height:1.15}
+.hero p{color:var(--fg2);max-width:720px;font-size:15px}
+.disc{display:inline-block;margin-top:16px;font-size:12px;color:var(--fg2);background:var(--card);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:6px;padding:9px 13px}
+.s-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.s-head h2{font-size:19px;font-weight:600;letter-spacing:-.02em}.s-head .note{font-size:12px;color:var(--fg3)}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+.cards{display:grid;gap:16px}
+.ocard{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.oc-h{display:flex;gap:14px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.oc-n{flex:none;width:30px;height:30px;border-radius:8px;background:var(--muted2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:600}
+.oc-h h3{font-size:16px;font-weight:600}.oc-h .tag{color:var(--fg2);font-size:13px;margin-top:3px}
+.oc-b{padding:16px 20px;display:grid;gap:14px}
+.oc-block .lbl,.oc-grid .lbl{display:block;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--fg3);margin-bottom:5px}
+.oc-block p{color:var(--fg2);font-size:13px}
+.oc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+ul.chars{list-style:none;display:grid;gap:6px}
+ul.chars li{position:relative;padding-left:16px;color:var(--fg2);font-size:12.5px}
+ul.chars li::before{content:"";position:absolute;left:1px;top:8px;width:5px;height:5px;border-radius:1px;background:var(--accent)}
+.rks{display:flex;flex-wrap:wrap;gap:6px}
+.rk{font-size:11px;color:var(--fg);background:var(--muted2);border:1px solid var(--border);border-radius:999px;padding:3px 9px}
+.small{color:var(--fg2);font-size:12.5px}
+.oc-f{display:flex;flex-wrap:wrap;gap:18px 30px;padding:14px 20px;border-top:1px solid var(--border);background:#101013}
+.oc-f .fl{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg3);margin-bottom:3px}
+.oc-f b{font-size:13px;font-weight:600}.oc-f .ex{flex:1;min-width:220px}.oc-f .ex b{color:var(--fg2);font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg2);text-align:left;padding:11px 12px;border-bottom:1px solid var(--border)}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--bsoft);color:var(--fg)}
+tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--muted)}
+td.mt{font-weight:600}td.muted{color:var(--fg2)}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid}
+.r-bajo{color:var(--accent);border-color:#16433288;background:#10b9811a}
+.r-medio{color:var(--amber);border-color:#4a380f88;background:#f0b4291a}
+.r-alto{color:var(--rose);border-color:#4a1d2488;background:#fb71851f}
+.glos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gi{display:flex;gap:11px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:13px 15px}
+.gi .gd{flex:none;width:7px;height:7px;border-radius:50%;background:var(--amber);margin-top:7px}
+.gi b{font-size:13px}.gi p{color:var(--fg2);font-size:12.5px;margin-top:3px}
+.scatter-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 16px}
+.basis{margin-top:14px;color:var(--fg2);font-size:12.5px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 14px}
+.basis b{color:var(--fg)}
+footer{max-width:1080px;margin:0 auto;padding:28px 26px;border-top:1px solid var(--border);color:var(--fg3);font-size:12px}
+/* per-category vault table (matches dashboard) */
+details.vt-toggle{border-top:1px solid var(--border)}
+details.vt-toggle>summary{list-style:none;cursor:pointer;padding:12px 20px;font-size:12.5px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:8px;user-select:none}
+details.vt-toggle>summary::-webkit-details-marker{display:none}
+details.vt-toggle>summary::before{content:"\25B8";font-size:11px;color:var(--fg3);transition:transform .15s}
+details.vt-toggle[open]>summary::before{transform:rotate(90deg)}
+details.vt-toggle>summary:hover{color:#5ee0b0}
+.vt-scroll{overflow-x:auto;border-top:1px solid var(--border)}
+table.vtab{width:100%;border-collapse:collapse;font-size:12.5px}
+table.vtab thead th{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--fg2);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;background:#101013;position:sticky;top:0}
+table.vtab thead th.num{text-align:right}
+table.vtab tbody td{padding:8px 10px;border-bottom:1px solid var(--bsoft);white-space:nowrap}
+table.vtab tbody tr:last-child td{border-bottom:none}
+table.vtab tbody tr:hover{background:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+td.apy{color:var(--accent)}.naval{color:var(--fg3)}
+a.vlink{color:var(--fg);text-decoration:none;font-weight:500}
+a.vlink:hover{color:var(--accent)}
+.vsub{font-size:10.5px;color:var(--fg3);margin-top:2px}
+.tag.sm{font-size:10px;padding:1px 7px;border-radius:999px;background:var(--muted2);border:1px solid var(--border);color:var(--fg)}
+.ac-stable{color:var(--accent)}.ac-eth{color:#a5b4fc}.ac-btc{color:var(--amber)}.ac-alt{color:var(--rose)}.ac-lp_token{color:#7dd3fc}
+.tier{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid}
+.tier::before{content:"";width:5px;height:5px;border-radius:50%}
+.tier-Bajo{color:var(--accent);border-color:#16433288;background:#10b9811a}.tier-Bajo::before{background:var(--accent)}
+.tier-Medio{color:var(--amber);border-color:#4a380f88;background:#f0b4291a}.tier-Medio::before{background:var(--amber)}
+.tier-Alto{color:var(--rose);border-color:#4a1d2488;background:#fb71851f}.tier-Alto::before{background:var(--rose)}
+.fcount{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;border-radius:5px;background:var(--muted2);font-family:var(--mono);font-size:11px;color:var(--fg2);border:1px solid var(--border)}
+.fcount.hi{color:var(--amber);border-color:#3a2f12}
+a.addr{font-family:var(--mono);font-size:11px;color:var(--fg2);text-decoration:none}
+a.addr:hover{color:var(--accent)}
+.vt-empty{padding:14px 20px;font-size:12.5px;color:var(--fg3);border-top:1px solid var(--border)}
+@media(max-width:780px){.oc-grid{grid-template-columns:1fr}.glos{grid-template-columns:1fr}.hero h2{font-size:24px}}
+</style></head><body>
+
+<style id="chainbar-css">
+.chainbar{background:#0b0b0d;border-bottom:1px solid #2a2a31;padding:8px 22px;display:flex;gap:11px;align-items:center;justify-content:center;font-size:11.5px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;color:#6a6a74;flex-wrap:wrap;position:sticky;top:0;z-index:60;height:34px}
+.chainbar a{color:#9a9aa4;text-decoration:none;font-weight:500;padding:3px 8px;border-radius:5px;transition:.12s}
+.chainbar a:hover{color:#ededf0;background:#1c1c20}
+.chainbar a.cur{color:#34d399;background:#10b9811a}
+.chainbar .sep{color:#2a2a31;font-size:9px}
+.chainbar .lbl{color:#6a6a74;font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+header.top{top:34px !important}
+</style>
+<div class="chainbar">
+  <a href="index.html">⌂ Inicio</a>
+  <span class="sep">●</span>
+  <span class="lbl">Base</span>
+  <a href="base_vaults_report.html">Dashboard</a>
+  <a href="oportunidades_inversion.html">Guía</a>
+  <span class="sep">●</span>
+  <span class="lbl">Arbitrum</span>
+  <a href="arbitrum_vaults_report.html">Dashboard</a>
+  <a href="arbitrum_oportunidades.html" class="cur">Guía</a>
+</div>
+
+<header class="top"><div class="top-inner"><div class="logo">B</div>
+<div><h1>Oportunidades de inversión DeFi en Arbitrum</h1><div class="sub">guía conceptual · 25 vaults · $1.24B · 2026-05-27</div></div></div></header>
+<main>
+  <section class="hero">
+    <div class="eyebrow">Guía conceptual</div>
+    <h2>¿Qué tipos de oportunidad de inversión hay, y qué riesgo tiene cada una?</h2>
+    <p>Una explicación simple de las grandes familias de estrategias de rendimiento disponibles en Arbitrum: cómo generan retorno, sus características, sus riesgos principales y su perfil. Los rangos y ejemplos provienen de los vaults reales relevados (≥ $2M TVL).</p>
+    <div class="disc">Material informativo y educativo — <b>no es asesoría financiera</b>. Los rendimientos son variables y no garantizados.</div>
+  </section>
+
+  <section id="mapa">
+    <div class="s-head"><h2>Mapa riesgo–rendimiento</h2><span class="note">posición = promedio de la categoría · tamaño = TVL</span></div>
+    <div class="scatter-wrap"><svg viewBox="0 0 900 430" width="100%" preserveAspectRatio="xMidYMid meet" font-family="var(--mono)">
+<line x1="82" y1="378" x2="750" y2="378" stroke="#22222a" stroke-width="1"/>
+<text x="74" y="381" fill="#6a6a74" font-size="10" text-anchor="end">0%</text>
+<line x1="82" y1="298" x2="750" y2="298" stroke="#22222a" stroke-width="1"/>
+<text x="74" y="301" fill="#6a6a74" font-size="10" text-anchor="end">2%</text>
+<line x1="82" y1="218" x2="750" y2="218" stroke="#22222a" stroke-width="1"/>
+<text x="74" y="221" fill="#6a6a74" font-size="10" text-anchor="end">4%</text>
+<line x1="82" y1="138" x2="750" y2="138" stroke="#22222a" stroke-width="1"/>
+<text x="74" y="141" fill="#6a6a74" font-size="10" text-anchor="end">6%</text>
+<line x1="82" y1="58" x2="750" y2="58" stroke="#22222a" stroke-width="1"/>
+<text x="74" y="61" fill="#6a6a74" font-size="10" text-anchor="end">8%</text>
+<text x="171" y="402" fill="#6a6a74" font-size="10" text-anchor="middle">menor</text>
+<text x="438" y="402" fill="#6a6a74" font-size="10" text-anchor="middle">medio</text>
+<text x="705" y="402" fill="#6a6a74" font-size="10" text-anchor="middle">mayor</text>
+<line x1="82" y1="378" x2="750" y2="378" stroke="#3a3a44" stroke-width="1"/>
+<text x="82" y="418" fill="#9a9aa4" font-size="11" text-anchor="start">Riesgo (score promedio) →</text>
+<text x="14" y="34" fill="#9a9aa4" font-size="11" text-anchor="start">↑ Rendimiento (APY 30d)</text>
+<circle cx="345" cy="274" r="54" fill="#f0b429" fill-opacity="0.16" stroke="#f0b429" stroke-width="1.5"/>
+<text x="345" y="278" fill="#ededf0" font-size="11" font-weight="600" text-anchor="middle">Lending</text>
+<text x="345" y="292" fill="#9a9aa4" font-size="9.5" text-anchor="middle">$542M</text>
+<circle cx="171" cy="232" r="45" fill="#34d399" fill-opacity="0.16" stroke="#34d399" stroke-width="1.5"/>
+<text x="222" y="235" fill="#ededf0" font-size="11" font-weight="600" text-anchor="start">Ahorro</text>
+<text x="222" y="248" fill="#6a6a74" font-size="9.5" text-anchor="start">$359M</text>
+<circle cx="705" cy="89" r="42" fill="#fb7185" fill-opacity="0.16" stroke="#fb7185" stroke-width="1.5"/>
+<text x="754" y="92" fill="#ededf0" font-size="11" font-weight="600" text-anchor="start">Optimizador</text>
+<text x="754" y="105" fill="#6a6a74" font-size="9.5" text-anchor="start">$300M</text>
+<circle cx="498" cy="236" r="20" fill="#f0b429" fill-opacity="0.16" stroke="#f0b429" stroke-width="1.5"/>
+<text x="524" y="239" fill="#ededf0" font-size="11" font-weight="600" text-anchor="start">RWA</text>
+<text x="524" y="252" fill="#6a6a74" font-size="9.5" text-anchor="start">$36M</text>
+<text x="766" y="46" fill="#9a9aa4" font-size="10" font-weight="600">Tamaño = TVL</text>
+<text x="766" y="72" fill="#9a9aa4" font-size="10" font-weight="600">Color = perfil</text>
+<circle cx="771" cy="87" r="5" fill="#34d399" fill-opacity="0.2" stroke="#34d399"/>
+<text x="782" y="90" fill="#9a9aa4" font-size="10">Bajo</text>
+<circle cx="771" cy="105" r="5" fill="#f0b429" fill-opacity="0.2" stroke="#f0b429"/>
+<text x="782" y="108" fill="#9a9aa4" font-size="10">Medio</text>
+<circle cx="771" cy="123" r="5" fill="#fb7185" fill-opacity="0.2" stroke="#fb7185"/>
+<text x="782" y="126" fill="#9a9aa4" font-size="10">Alto</text>
+</svg></div>
+    <div class="basis">También existe el <b>arbitraje de base / delta-neutral</b> (capturar la tasa de funding manteniendo posiciones long/short que se cancelan). No aparece como vault ≥ $500K en Base en este dataset, por eso no tiene tarjeta propia.</div>
+  </section>
+
+  <section id="tipos">
+    <div class="s-head"><h2>Tipos de oportunidad</h2><span class="note">de menor a mayor escala</span></div>
+    <div class="cards"><article class="ocard">
+  <div class="oc-h"><span class="oc-n">01</span><div><h3>Préstamo / Crédito (Lending)</h3><p class="tag">Prestás un activo y ganás la tasa de interés que pagan quienes lo toman prestado.</p></div></div>
+  <div class="oc-b">
+    <div class="oc-block"><span class="lbl">¿Qué es?</span><p>Depositás un activo (normalmente una stablecoin o ETH/BTC) en un mercado de préstamos. Otros usuarios lo piden prestado dejando colateral y pagan un interés que recibís vos. Incluye mercados directos (Aave, Moonwell, Compound, Fluid) y bóvedas curadas que reparten el depósito entre varios mercados (Morpho MetaMorpho).</p></div>
+    <div class="oc-block"><span class="lbl">¿Cómo genera rendimiento?</span><p>Interés variable de los prestatarios, según oferta y demanda (utilización). A veces se suma un incentivo en tokens del protocolo.</p></div>
+    <div class="oc-grid">
+      <div><span class="lbl">Características</span><ul class=" chars"><li>Liquidez normalmente inmediata (sujeta a utilización)</li><li>Tasa variable</li><li>El tipo más simple, líquido y de mayor escala</li><li>Las bóvedas curadas delegan en un gestor la asignación</li></ul></div>
+      <div><span class="lbl">Riesgos principales</span><div class="rks"><span class="rk">Liquidación / deuda incobrable</span><span class="rk">Pérdida de paridad (depeg)</span><span class="rk">Dependencia centralizada</span></div>
+        <span class="lbl" style="margin-top:12px">Notas</span><p class="small">Es el corazón del mercado en Base: domina en TVL. Las bóvedas de stablecoins de marca (Steakhouse, Gauntlet) suelen ser Bajo; los mercados de colaterales volátiles o curadores agresivos, Medio.</p></div>
+    </div>
+  </div>
+  <div class="oc-f">
+    <div><span class="fl">Perfil de riesgo</span><b>Bajo–Medio</b></div>
+    <div><span class="fl">APY 30d (rango · mediana)</span><b>0.0–5.9% · 2.60%</b></div>
+    <div><span class="fl">Escala en Base</span><b>20 vaults · $542M</b></div>
+    <div class="ex"><span class="fl">Ejemplos reales</span><b>Aave v3 Arbitrum aArbWBTC · Aave v3 Arbitrum aArbweETH</b></div>
+  </div>
+  <details class='vt-toggle'><summary>Ver los 20 vaults de Lending</summary><div class='vt-scroll'><table class='vtab'><thead><tr><th>Vault</th><th>Protocolo</th><th>Activo</th><th>Riesgo</th><th class='num'>TVL</th><th class='num'>Base</th><th class='num'>Reward</th><th class='num'>Net 7d</th><th class='num'>Net 30d</th><th class='num'>Ajust.</th><th class='num'>Flags</th><th>Dirección</th></tr></thead><tbody><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbWBTC</a><div class='vsub'>WBTC · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-btc'>BTC</span></td><td><span class='tier tier-Bajo'>Bajo</span></td><td class='num'>$174.8M</td><td class='num'>0.05%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>0.05%</td><td class='num apy'>0.05%</td><td class='num'>-1.95%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x078f358208685046a11C85e8ad32895DED33A249' target='_blank' rel='noopener' title='0x078f358208685046a11C85e8ad32895DED33A249'>0x078f…A249</a></td></tr><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbweETH</a><div class='vsub'>weETH · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-eth'>ETH</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$92.1M</td><td class='num'>0.00%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>0.00%</td><td class='num apy'>0.00%</td><td class='num'>-2.00%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x8437d7C167dFB82ED4Cb79CD44B7a32A1dd95c77' target='_blank' rel='noopener' title='0x8437d7C167dFB82ED4Cb79CD44B7a32A1dd95c77'>0x8437…5c77</a></td></tr><tr><td><a class='vlink' href='https://fluid.io/lending/42161' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Fluid fUSDC (Arbitrum)</a><div class='vsub'>USDC · instant (subject to utilization)</div></td><td>Fluid</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Bajo'>Bajo</span></td><td class='num'>$47.1M</td><td class='num'>5.22%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>5.17%</td><td class='num apy'>5.40%</td><td class='num'>3.40%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x1A996cb54bb95462040408C06122D45D6Cdb6096' target='_blank' rel='noopener' title='0x1A996cb54bb95462040408C06122D45D6Cdb6096'>0x1A99…6096</a></td></tr><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbwstETH</a><div class='vsub'>wstETH · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-eth'>ETH</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$42.7M</td><td class='num'>0.00%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>0.00%</td><td class='num apy'>0.00%</td><td class='num'>-2.00%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x513c7E3a9c69cA3e22550eF58AC1C0088e918FFf' target='_blank' rel='noopener' title='0x513c7E3a9c69cA3e22550eF58AC1C0088e918FFf'>0x513c…8FFf</a></td></tr><tr><td><a class='vlink' href='https://fluid.io/lending/42161' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Fluid fUSDT0 (Arbitrum)</a><div class='vsub'>USDT0 · instant (subject to utilization)</div></td><td>Fluid</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Bajo'>Bajo</span></td><td class='num'>$41.6M</td><td class='num'>4.57%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>4.42%</td><td class='num apy'>5.15%</td><td class='num'>3.15%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x4A03F37e7d3fC243e3f99341d36f4b829BEe5E03' target='_blank' rel='noopener' title='0x4A03F37e7d3fC243e3f99341d36f4b829BEe5E03'>0x4A03…5E03</a></td></tr><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbUSDCn</a><div class='vsub'>USDC · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Bajo'>Bajo</span></td><td class='num'>$40.4M</td><td class='num'>2.45%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>2.88%</td><td class='num apy'>3.19%</td><td class='num'>1.19%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x724dc807b04555b71ed48a6896b6F41593b8C637' target='_blank' rel='noopener' title='0x724dc807b04555b71ed48a6896b6F41593b8C637'>0x724d…C637</a></td></tr><tr><td><a class='vlink' href='https://app.morpho.org/arbitrum/vault/0xbeeff77CE5C059445714E6A3490E273fE7F2492F' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Steakhouse High Yield USDT0 (bbqUSDT0)</a><div class='vsub'>USDT0 · instant (subject to market liquidity)</div></td><td>Morpho (Vault V2)</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$14.7M</td><td class='num'>2.46%</td><td class='num'>0.00%</td><td class='num'>2.91%</td><td class='num apy'>2.78%</td><td class='num'>-0.22%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk, centralized dependency'>3</span></td><td><a class='addr' href='https://arbiscan.io/address/0xbeeff77CE5C059445714E6A3490E273fE7F2492F' target='_blank' rel='noopener' title='0xbeeff77CE5C059445714E6A3490E273fE7F2492F'>0xbeef…492F</a></td></tr><tr><td><a class='vlink' href='https://fluid.io/lending/42161' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Fluid fwstETH (Arbitrum)</a><div class='vsub'>wstETH · instant (subject to utilization)</div></td><td>Fluid</td><td><span class='tag sm ac-eth'>ETH</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$14.2M</td><td class='num'>0.00%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>0.00%</td><td class='num apy'>0.02%</td><td class='num'>-1.98%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x66C25Cd75EBdAA7E04816F643d8E46cecd3183c9' target='_blank' rel='noopener' title='0x66C25Cd75EBdAA7E04816F643d8E46cecd3183c9'>0x66C2…83c9</a></td></tr><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbUSDT0</a><div class='vsub'>USDT0 · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Bajo'>Bajo</span></td><td class='num'>$13.4M</td><td class='num'>2.35%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>2.37%</td><td class='num apy'>2.82%</td><td class='num'>0.82%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x6ab707Aca953eDAeFBc4fD23bA73294241490620' target='_blank' rel='noopener' title='0x6ab707Aca953eDAeFBc4fD23bA73294241490620'>0x6ab7…0620</a></td></tr><tr><td><a class='vlink' href='https://app.morpho.org/arbitrum/vault/0xbeeff1D5dE8F79ff37a151681100B039661da518' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Steakhouse High Yield USDC v2 (bbqUSDC)</a><div class='vsub'>USDC · instant (subject to market liquidity)</div></td><td>Morpho (Vault V2)</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$12.9M</td><td class='num'>2.83%</td><td class='num'>0.00%</td><td class='num'>3.66%</td><td class='num apy'>4.00%</td><td class='num'>1.00%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk, centralized dependency'>3</span></td><td><a class='addr' href='https://arbiscan.io/address/0xbeeff1D5dE8F79ff37a151681100B039661da518' target='_blank' rel='noopener' title='0xbeeff1D5dE8F79ff37a151681100B039661da518'>0xbeef…a518</a></td></tr><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbWETH</a><div class='vsub'>WETH · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-eth'>ETH</span></td><td><span class='tier tier-Bajo'>Bajo</span></td><td class='num'>$10.8M</td><td class='num'>1.68%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>1.37%</td><td class='num apy'>1.11%</td><td class='num'>0.11%</td><td class='num'><span class='fcount' title='liquidation risk'>1</span></td><td><a class='addr' href='https://arbiscan.io/address/0xe50fA9b3c56FfB159cB0FCA61F5c9D750e8128c8' target='_blank' rel='noopener' title='0xe50fA9b3c56FfB159cB0FCA61F5c9D750e8128c8'>0xe50f…28c8</a></td></tr><tr><td><a class='vlink' href='https://app.compound.finance/' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Compound v3 USDT Comet (cUSDTv3)</a><div class='vsub'>USDT0 · instant (subject to utilization)</div></td><td>Compound v3</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$8.4M</td><td class='num'>2.08%</td><td class='num'>0.00%</td><td class='num'>2.10%</td><td class='num apy'>2.17%</td><td class='num'>0.17%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0xd98Be00b5D27fc98112BdE293e487f8D4cA57d07' target='_blank' rel='noopener' title='0xd98Be00b5D27fc98112BdE293e487f8D4cA57d07'>0xd98B…7d07</a></td></tr><tr><td><a class='vlink' href='https://fluid.io/lending/42161' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Fluid fWETH (Arbitrum)</a><div class='vsub'>ETH · instant (subject to utilization)</div></td><td>Fluid</td><td><span class='tag sm ac-eth'>ETH</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$5.9M</td><td class='num'>1.11%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>1.12%</td><td class='num apy'>1.37%</td><td class='num'>0.37%</td><td class='num'><span class='fcount' title='liquidation risk'>1</span></td><td><a class='addr' href='https://arbiscan.io/address/0x45Df0656F8aDf017590009d2f1898eeca4F0a205' target='_blank' rel='noopener' title='0x45Df0656F8aDf017590009d2f1898eeca4F0a205'>0x45Df…a205</a></td></tr><tr><td><a class='vlink' href='https://app.compound.finance/' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Compound v3 USDC Comet (cUSDCv3)</a><div class='vsub'>USDC · instant (subject to utilization)</div></td><td>Compound v3</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$4.6M</td><td class='num'>2.65%</td><td class='num'>0.00%</td><td class='num'>2.62%</td><td class='num apy'>2.60%</td><td class='num'>0.60%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf' target='_blank' rel='noopener' title='0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf'>0x9c4e…58bf</a></td></tr><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbLINK</a><div class='vsub'>LINK · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-alt'>Alt</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$3.9M</td><td class='num'>0.02%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>0.02%</td><td class='num apy'>0.02%</td><td class='num'>-0.98%</td><td class='num'><span class='fcount' title='liquidation risk'>1</span></td><td><a class='addr' href='https://arbiscan.io/address/0x191c10Aa4AF7C30e871E70C95dB0E4eb77237530' target='_blank' rel='noopener' title='0x191c10Aa4AF7C30e871E70C95dB0E4eb77237530'>0x191c…7530</a></td></tr><tr><td><a class='vlink' href='https://fluid.io/lending/42161' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Fluid fGHO (Arbitrum)</a><div class='vsub'>GHO · instant (subject to utilization)</div></td><td>Fluid</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$3.6M</td><td class='num'>3.69%</td><td class='num'>2.88%</td><td class='num'>5.78%</td><td class='num apy'>5.92%</td><td class='num'>3.92%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x037dFf1C12805707d7c29F163E0F09fC9102657A' target='_blank' rel='noopener' title='0x037dFf1C12805707d7c29F163E0F09fC9102657A'>0x037d…657A</a></td></tr><tr><td><a class='vlink' href='https://app.morpho.org/arbitrum/vault/0x7e97fa6893871A2751B5fE961978DCCb2c201E65' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Gauntlet USDC Core (gtUSDCc)</a><div class='vsub'>USDC · instant (subject to market liquidity)</div></td><td>Morpho (MetaMorpho)</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$3.6M</td><td class='num'>2.86%</td><td class='num'>0.00%</td><td class='num'>4.75%</td><td class='num apy'>4.09%</td><td class='num'>1.09%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk, centralized dependency'>3</span></td><td><a class='addr' href='https://arbiscan.io/address/0x7e97fa6893871A2751B5fE961978DCCb2c201E65' target='_blank' rel='noopener' title='0x7e97fa6893871A2751B5fE961978DCCb2c201E65'>0x7e97…1E65</a></td></tr><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbARB</a><div class='vsub'>ARB · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-alt'>Alt</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$2.7M</td><td class='num'>0.11%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>0.11%</td><td class='num apy'>0.10%</td><td class='num'>-0.90%</td><td class='num'><span class='fcount' title='liquidation risk'>1</span></td><td><a class='addr' href='https://arbiscan.io/address/0x6533afac2E7BCCB20dca161449A13A32D391fb00' target='_blank' rel='noopener' title='0x6533afac2E7BCCB20dca161449A13A32D391fb00'>0x6533…fb00</a></td></tr><tr><td><a class='vlink' href='https://app.morpho.org/arbitrum/vault/0x5c0C306Aaa9F877de636f4d5822cA9F2E81563BA' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Steakhouse High Yield USDC v1 (bbqUSDC)</a><div class='vsub'>USDC · instant (subject to market liquidity)</div></td><td>Morpho (MetaMorpho)</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$2.7M</td><td class='num'>2.86%</td><td class='num'>0.00%</td><td class='num'>3.81%</td><td class='num apy'>4.56%</td><td class='num'>1.56%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk, centralized dependency'>3</span></td><td><a class='addr' href='https://arbiscan.io/address/0x5c0C306Aaa9F877de636f4d5822cA9F2E81563BA' target='_blank' rel='noopener' title='0x5c0C306Aaa9F877de636f4d5822cA9F2E81563BA'>0x5c0C…63BA</a></td></tr><tr><td><a class='vlink' href='https://app.aave.com/?marketName=proto_arbitrum_v3' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Aave v3 Arbitrum aArbrETH</a><div class='vsub'>rETH · instant (subject to utilization)</div></td><td>Aave v3</td><td><span class='tag sm ac-eth'>ETH</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$2.2M</td><td class='num'>0.01%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>0.01%</td><td class='num apy'>0.01%</td><td class='num'>-1.99%</td><td class='num'><span class='fcount' title='depeg risk, liquidation risk'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0x8Eb270e296023E9D92081fdF967dDd7878724424' target='_blank' rel='noopener' title='0x8Eb270e296023E9D92081fdF967dDd7878724424'>0x8Eb2…4424</a></td></tr></tbody></table></div></details>
+</article>
+<article class="ocard">
+  <div class="oc-h"><span class="oc-n">02</span><div><h3>Ahorro (Savings)</h3><p class="tag">Un token que devenga una tasa de ahorro fijada por el protocolo.</p></div></div>
+  <div class="oc-b">
+    <div class="oc-block"><span class="lbl">¿Qué es?</span><p>Envolvés una stablecoin en un token que crece de valor a una &quot;tasa de ahorro&quot; definida por la gobernanza del protocolo (ej. sUSDS = la Sky Savings Rate sobre USDS). No dependés de prestatarios individuales.</p></div>
+    <div class="oc-block"><span class="lbl">¿Cómo genera rendimiento?</span><p>Tasa de ahorro respaldada por el protocolo/su tesorería, relativamente estable.</p></div>
+    <div class="oc-grid">
+      <div><span class="lbl">Características</span><ul class=" chars"><li>Muy líquido</li><li>Tasa estable y predecible</li><li>Muy simple de usar</li><li>Depende de la gobernanza que fija la tasa</li></ul></div>
+      <div><span class="lbl">Riesgos principales</span><div class="rks"><span class="rk">Pérdida de paridad (depeg)</span><span class="rk">Dependencia centralizada</span></div>
+        <span class="lbl" style="margin-top:12px">Notas</span><p class="small">El perfil más conservador del set. El riesgo principal es la paridad de la stablecoin y la gobernanza del protocolo.</p></div>
+    </div>
+  </div>
+  <div class="oc-f">
+    <div><span class="fl">Perfil de riesgo</span><b>Bajo</b></div>
+    <div><span class="fl">APY 30d (rango · mediana)</span><b>3.6–3.6% · 3.64%</b></div>
+    <div><span class="fl">Escala en Base</span><b>1 vaults · $359M</b></div>
+    <div class="ex"><span class="fl">Ejemplos reales</span><b>Spark sUSDS Savings (Arbitrum)</b></div>
+  </div>
+  <details class='vt-toggle'><summary>Ver los 1 vaults de Ahorro</summary><div class='vt-scroll'><table class='vtab'><thead><tr><th>Vault</th><th>Protocolo</th><th>Activo</th><th>Riesgo</th><th class='num'>TVL</th><th class='num'>Base</th><th class='num'>Reward</th><th class='num'>Net 7d</th><th class='num'>Net 30d</th><th class='num'>Ajust.</th><th class='num'>Flags</th><th>Dirección</th></tr></thead><tbody><tr><td><a class='vlink' href='https://app.spark.fi/savings' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Spark sUSDS Savings (Arbitrum)</a><div class='vsub'>USDS · instant</div></td><td>Spark (Sky)</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Bajo'>Bajo</span></td><td class='num'>$358.9M</td><td class='num'>3.60%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>3.62%</td><td class='num apy'>3.64%</td><td class='num'>1.64%</td><td class='num'><span class='fcount' title='depeg risk, centralized dependency'>2</span></td><td><a class='addr' href='https://arbiscan.io/address/0xddb46999f8891663a8f2828d25298f70416d7610' target='_blank' rel='noopener' title='0xddb46999f8891663a8f2828d25298f70416d7610'>0xddb4…7610</a></td></tr></tbody></table></div></details>
+</article>
+<article class="ocard">
+  <div class="oc-h"><span class="oc-n">03</span><div><h3>Optimizador de rendimiento (Yield Aggregator)</h3><p class="tag">Una bóveda que mueve tu depósito automáticamente entre varias estrategias para maximizar el rendimiento.</p></div></div>
+  <div class="oc-b">
+    <div class="oc-block"><span class="lbl">¿Qué es?</span><p>Depositás un activo y un gestor/algoritmo lo reasigna y auto-compone entre estrategias subyacentes (préstamo, LPs, productos de tasa fija, etc.). Comodidad a cambio de delegar decisiones.</p></div>
+    <div class="oc-block"><span class="lbl">¿Cómo genera rendimiento?</span><p>El rendimiento de las estrategias subyacentes, auto-compuesto y rebalanceado por el curador.</p></div>
+    <div class="oc-grid">
+      <div><span class="lbl">Características</span><ul class=" chars"><li>Gestión automática (comodidad)</li><li>Dependés del gestor/curador</li><li>Más superficie de contrato</li><li>Muchos usan retiro asíncrono / por épocas</li></ul></div>
+      <div><span class="lbl">Riesgos principales</span><div class="rks"><span class="rk">Pérdida de paridad (depeg)</span><span class="rk">Sin auditoría pública</span><span class="rk">Dependencia centralizada</span></div>
+        <span class="lbl" style="margin-top:12px">Notas</span><p class="small">El grupo más diverso (15 protocolos). Útil para no gestionar manualmente, pero la dependencia del gestor y los retiros en cola son la contracara.</p></div>
+    </div>
+  </div>
+  <div class="oc-f">
+    <div><span class="fl">Perfil de riesgo</span><b>Medio (a veces Alto)</b></div>
+    <div><span class="fl">APY 30d (rango · mediana)</span><b>7.2–7.2% · 7.23%</b></div>
+    <div><span class="fl">Escala en Base</span><b>1 vaults · $300M</b></div>
+    <div class="ex"><span class="fl">Ejemplos reales</span><b>USDai Staked (sUSDai)</b></div>
+  </div>
+  <details class='vt-toggle'><summary>Ver los 1 vaults de Optimizador</summary><div class='vt-scroll'><table class='vtab'><thead><tr><th>Vault</th><th>Protocolo</th><th>Activo</th><th>Riesgo</th><th class='num'>TVL</th><th class='num'>Base</th><th class='num'>Reward</th><th class='num'>Net 7d</th><th class='num'>Net 30d</th><th class='num'>Ajust.</th><th class='num'>Flags</th><th>Dirección</th></tr></thead><tbody><tr><td><a class='vlink' href='https://usdai.io/' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>USDai Staked (sUSDai)</a><div class='vsub'>USDAI · 30d unlock queue</div></td><td>USDai</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Alto'>Alto</span></td><td class='num'>$299.7M</td><td class='num'>7.07%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>7.07%</td><td class='num apy'>7.23%</td><td class='num'>2.23%</td><td class='num'><span class='fcount hi' title='depeg risk, smart contract unaudited, centralized dependency, lockup, withdraw queue'>5</span></td><td><a class='addr' href='https://arbiscan.io/address/0x0b2b2b2076d95dda7817e785989fe353fe955ef9' target='_blank' rel='noopener' title='0x0b2b2b2076d95dda7817e785989fe353fe955ef9'>0x0b2b…5ef9</a></td></tr></tbody></table></div></details>
+</article>
+<article class="ocard">
+  <div class="oc-h"><span class="oc-n">04</span><div><h3>Staking líquido / Restaking</h3><p class="tag">Un token líquido que representa ETH (u otro activo) en staking y devenga recompensas de validación.</p></div></div>
+  <div class="oc-b">
+    <div class="oc-block"><span class="lbl">¿Qué es?</span><p>Tenés un token (ej. weETH, Super OETH) que mantiene tu exposición al activo mientras éste está en staking/restaking y genera recompensas. Seguís líquido para usarlo en DeFi.</p></div>
+    <div class="oc-block"><span class="lbl">¿Cómo genera rendimiento?</span><p>Recompensas de staking de la red y, en restaking, de asegurar servicios adicionales (EigenLayer); algunos suman estrategias (AMO).</p></div>
+    <div class="oc-grid">
+      <div><span class="lbl">Características</span><ul class=" chars"><li>Exposición al precio del subyacente (ETH)</li><li>El token puede cotizar con descuento (depeg)</li><li>Operado por el protocolo/validadores</li><li>Retiro inmediato en secundario; salida nativa puede demorar días</li></ul></div>
+      <div><span class="lbl">Riesgos principales</span><div class="rks"></div>
+        <span class="lbl" style="margin-top:12px">Notas</span><p class="small">En ETH grande (weETH, Super OETH) es relativamente conservador. Los liquid-lockers o staking de tokens chicos son mucho más arriesgados.</p></div>
+    </div>
+  </div>
+  <div class="oc-f">
+    <div><span class="fl">Perfil de riesgo</span><b>Bajo–Medio (ETH) · Alto (alts pequeños)</b></div>
+    <div><span class="fl">APY 30d (rango · mediana)</span><b>n/a · n/a</b></div>
+    <div><span class="fl">Escala en Base</span><b>0 vaults · $0K</b></div>
+    <div class="ex"><span class="fl">Ejemplos reales</span><b></b></div>
+  </div>
+  <div class='vt-empty'>Sin vaults de Restaking en Arbitrum ≥ $2M.</div>
+</article>
+<article class="ocard">
+  <div class="oc-h"><span class="oc-n">05</span><div><h3>Provisión de liquidez (LP / AMM)</h3><p class="tag">Aportás un par de tokens a un DEX y ganás comisiones de trading — con riesgo de pérdida impermanente.</p></div></div>
+  <div class="oc-b">
+    <div class="oc-block"><span class="lbl">¿Qué es?</span><p>Depositás dos activos en un pool de un exchange descentralizado (aquí vía bóvedas Beefy que auto-componen LPs de Aerodrome). Ganás parte de las comisiones de swap y emisiones de incentivos.</p></div>
+    <div class="oc-block"><span class="lbl">¿Cómo genera rendimiento?</span><p>Comisiones de trading + emisiones del DEX, auto-compuestas.</p></div>
+    <div class="oc-grid">
+      <div><span class="lbl">Características</span><ul class=" chars"><li>Rendimiento más alto</li><li>Pérdida impermanente si los precios divergen</li><li>Liquidez del LP normalmente inmediata</li><li>Mejor para pares correlacionados o estables</li></ul></div>
+      <div><span class="lbl">Riesgos principales</span><div class="rks"></div>
+        <span class="lbl" style="margin-top:12px">Notas</span><p class="small">La pérdida impermanente (IL) es el riesgo distintivo: si los precios del par se mueven, podés terminar peor que solo holdeando. Rendimiento variable.</p></div>
+    </div>
+  </div>
+  <div class="oc-f">
+    <div><span class="fl">Perfil de riesgo</span><b>Medio–Alto</b></div>
+    <div><span class="fl">APY 30d (rango · mediana)</span><b>n/a · n/a</b></div>
+    <div><span class="fl">Escala en Base</span><b>0 vaults · $0K</b></div>
+    <div class="ex"><span class="fl">Ejemplos reales</span><b></b></div>
+  </div>
+  <div class='vt-empty'>Sin vaults de LP / AMM en Arbitrum ≥ $2M.</div>
+</article>
+<article class="ocard">
+  <div class="oc-h"><span class="oc-n">06</span><div><h3>Apalancamiento / Loop (Leveraged Loop)</h3><p class="tag">La bóveda pide prestado para re-depositar y amplificar el rendimiento — y también el riesgo.</p></div></div>
+  <div class="oc-b">
+    <div class="oc-block"><span class="lbl">¿Qué es?</span><p>Estrategia que toma deuda contra el colateral para volver a depositar en bucle (loop), amplificando la exposición y el rendimiento neto. Frecuente en staking de ETH (cbETH/wstETH).</p></div>
+    <div class="oc-block"><span class="lbl">¿Cómo genera rendimiento?</span><p>El diferencial entre el rendimiento del activo y el costo de pedir prestado, multiplicado por el apalancamiento.</p></div>
+    <div class="oc-grid">
+      <div><span class="lbl">Características</span><ul class=" chars"><li>Rendimiento amplificado</li><li>Riesgo de liquidación si el spread se invierte o cae el colateral</li><li>Más complejo y sensible a tasas</li><li>Gestión activa del nivel de apalancamiento</li></ul></div>
+      <div><span class="lbl">Riesgos principales</span><div class="rks"></div>
+        <span class="lbl" style="margin-top:12px">Notas</span><p class="small">Lo más sofisticado del set. Si la tasa de préstamo supera al rendimiento, o el colateral cae, hay liquidación. Para usuarios avanzados.</p></div>
+    </div>
+  </div>
+  <div class="oc-f">
+    <div><span class="fl">Perfil de riesgo</span><b>Alto</b></div>
+    <div><span class="fl">APY 30d (rango · mediana)</span><b>n/a · n/a</b></div>
+    <div><span class="fl">Escala en Base</span><b>0 vaults · $0K</b></div>
+    <div class="ex"><span class="fl">Ejemplos reales</span><b></b></div>
+  </div>
+  <div class='vt-empty'>Sin vaults de Apalancamiento en Arbitrum ≥ $2M.</div>
+</article>
+<article class="ocard">
+  <div class="oc-h"><span class="oc-n">07</span><div><h3>Activos del mundo real (RWA)</h3><p class="tag">Un token respaldado por activos financieros tradicionales traídos on-chain.</p></div></div>
+  <div class="oc-b">
+    <div class="oc-block"><span class="lbl">¿Qué es?</span><p>Token respaldado por instrumentos del mundo real (ej. un fondo de CLOs AAA / renta fija, como Centrifuge deJAAA). El rendimiento viene de activos fuera de la cadena.</p></div>
+    <div class="oc-block"><span class="lbl">¿Cómo genera rendimiento?</span><p>El rendimiento del activo subyacente real (crédito / renta fija institucional).</p></div>
+    <div class="oc-grid">
+      <div><span class="lbl">Características</span><ul class=" chars"><li>Baja correlación con cripto</li><li>A menudo permisionado / institucional</li><li>Redención por épocas (no instantánea)</li><li>Depende de un custodio/fondo off-chain</li></ul></div>
+      <div><span class="lbl">Riesgos principales</span><div class="rks"><span class="rk">Pérdida de paridad (depeg)</span><span class="rk">Dependencia centralizada</span><span class="rk">Retiro diferido (cola)</span></div>
+        <span class="lbl" style="margin-top:12px">Notas</span><p class="small">Aporta diversificación, pero suma riesgo de crédito y dependencia de actores off-chain; la liquidez de redención suele ser limitada.</p></div>
+    </div>
+  </div>
+  <div class="oc-f">
+    <div><span class="fl">Perfil de riesgo</span><b>Medio</b></div>
+    <div><span class="fl">APY 30d (rango · mediana)</span><b>3.2–3.6% · 3.55%</b></div>
+    <div><span class="fl">Escala en Base</span><b>3 vaults · $36M</b></div>
+    <div class="ex"><span class="fl">Ejemplos reales</span><b>BlackRock BUIDL (Arbitrum) · Ondo USDY (Arbitrum)</b></div>
+  </div>
+  <details class='vt-toggle'><summary>Ver los 3 vaults de RWA</summary><div class='vt-scroll'><table class='vtab'><thead><tr><th>Vault</th><th>Protocolo</th><th>Activo</th><th>Riesgo</th><th class='num'>TVL</th><th class='num'>Base</th><th class='num'>Reward</th><th class='num'>Net 7d</th><th class='num'>Net 30d</th><th class='num'>Ajust.</th><th class='num'>Flags</th><th>Dirección</th></tr></thead><tbody><tr><td><a class='vlink' href='https://securitize.io/' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>BlackRock BUIDL (Arbitrum)</a><div class='vsub'>BUIDL · T+0 redemption via Securitize, KYC-gated</div></td><td>BlackRock</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Alto'>Alto</span></td><td class='num'>$25.5M</td><td class='num'>3.20%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>3.18%</td><td class='num apy'>3.22%</td><td class='num'>-0.78%</td><td class='num'><span class='fcount hi' title='depeg risk, smart contract unaudited, centralized dependency, withdraw queue'>4</span></td><td><a class='addr' href='https://arbiscan.io/address/0xA6525Ae43eDCd03dC08E775774dCAbd3bb925872' target='_blank' rel='noopener' title='0xA6525Ae43eDCd03dC08E775774dCAbd3bb925872'>0xA652…5872</a></td></tr><tr><td><a class='vlink' href='https://ondo.finance/' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Ondo USDY (Arbitrum)</a><div class='vsub'>USDY · T+0 KYC mint/redeem; instant on secondary</div></td><td>Ondo</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$5.6M</td><td class='num'>3.55%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>3.55%</td><td class='num apy'>3.55%</td><td class='num'>0.55%</td><td class='num'><span class='fcount' title='depeg risk, centralized dependency, withdraw queue'>3</span></td><td><a class='addr' href='https://arbiscan.io/address/0x35e050d3C0eC2d29D269a8EcEa763a183bDF9A9D' target='_blank' rel='noopener' title='0x35e050d3C0eC2d29D269a8EcEa763a183bDF9A9D'>0x35e0…9A9D</a></td></tr><tr><td><a class='vlink' href='https://theo.xyz/' target='_blank' rel='noopener' title='Abrir en la app del protocolo ↗'>Theo thBILL (Arbitrum)</a><div class='vsub'>THBILL · T+1 redemption via Theo (KYC)</div></td><td>Theo Network</td><td><span class='tag sm ac-stable'>Stablecoin</span></td><td><span class='tier tier-Medio'>Medio</span></td><td class='num'>$5.2M</td><td class='num'>3.52%</td><td class='num'><span class="naval">n/a</span></td><td class='num'>3.51%</td><td class='num apy'>3.56%</td><td class='num'>0.56%</td><td class='num'><span class='fcount' title='depeg risk, centralized dependency, withdraw queue'>3</span></td><td><a class='addr' href='https://arbiscan.io/address/0xfDD22Ce6D1F66bc0Ec89b20BF16CcB6670F55A5a' target='_blank' rel='noopener' title='0xfDD22Ce6D1F66bc0Ec89b20BF16CcB6670F55A5a'>0xfDD2…5A5a</a></td></tr></tbody></table></div></details>
+</article></div>
+  </section>
+
+  <section id="comparativa">
+    <div class="s-head"><h2>Comparativa rápida</h2><span class="note">cualitativa</span></div>
+    <div class="panel" style="padding:0;overflow:hidden">
+      <table><thead><tr><th>Tipo</th><th>Rendimiento</th><th>Riesgo</th><th>Liquidez</th><th>Complejidad</th><th>Riesgo principal</th><th>Ejemplo</th></tr></thead>
+      <tbody><tr><td class='mt'>Préstamo / Lending</td><td><span class="pill r-medio">Bajo–Medio</span></td><td><span class="pill r-medio">Bajo–Medio</span></td><td class='muted'>Alta</td><td class='muted'>Baja</td><td>Liquidación / deuda incobrable</td><td class='muted'>Aave USDC, Steakhouse USDC</td></tr><tr><td class='mt'>Ahorro / Savings</td><td><span class="pill r-bajo">Bajo</span></td><td><span class="pill r-bajo">Bajo</span></td><td class='muted'>Alta</td><td class='muted'>Baja</td><td>Paridad / gobernanza</td><td class='muted'>Spark sUSDS</td></tr><tr><td class='mt'>Optimizador</td><td><span class="pill r-medio">Medio–Alto</span></td><td><span class="pill r-medio">Medio</span></td><td class='muted'>Media</td><td class='muted'>Media–Alta</td><td>Dependencia del gestor</td><td class='muted'>YO USD, Superform</td></tr><tr><td class='mt'>Restaking / LST</td><td><span class="pill r-medio">Bajo–Medio</span></td><td><span class="pill r-medio">Medio</span></td><td class='muted'>Media–Alta</td><td class='muted'>Media</td><td>Depeg vs ETH / operador</td><td class='muted'>weETH, Super OETH</td></tr><tr><td class='mt'>LP / AMM</td><td><span class="pill r-medio">Medio–Alto</span></td><td><span class="pill r-medio">Medio–Alto</span></td><td class='muted'>Alta</td><td class='muted'>Media</td><td>Pérdida impermanente</td><td class='muted'>Beefy Aerodrome</td></tr><tr><td class='mt'>Apalancamiento</td><td><span class="pill r-alto">Variable/Alto</span></td><td><span class="pill r-alto">Alto</span></td><td class='muted'>Media</td><td class='muted'>Alta</td><td>Liquidación por apalancamiento</td><td class='muted'>IPOR loops</td></tr><tr><td class='mt'>RWA</td><td><span class="pill r-medio">Bajo–Medio</span></td><td><span class="pill r-medio">Medio</span></td><td class='muted'>Baja–Media</td><td class='muted'>Media</td><td>Crédito / actor off-chain</td><td class='muted'>Centrifuge deJAAA</td></tr><tr><td class='mt'>Arbitraje de base*</td><td><span class="pill r-medio">Medio</span></td><td><span class="pill r-medio">Medio</span></td><td class='muted'>Media</td><td class='muted'>Alta</td><td>Tasa de funding / contraparte</td><td class='muted'>— (no presente)</td></tr></tbody></table>
+    </div>
+    <p class="basis" style="background:none;border:none;padding:8px 0 0">* El arbitraje de base no aparece como vault ≥ $500K en Base en este dataset; se incluye solo como referencia conceptual.</p>
+  </section>
+
+  <section id="glosario">
+    <div class="s-head"><h2>Glosario de riesgos</h2></div>
+    <div class="glos"><div class="gi"><div class="gd"></div><div><b>Pérdida impermanente (IL)</b><p>En pools de liquidez, si los precios del par divergen podés terminar con menos valor que holdeando los activos por separado.</p></div></div><div class="gi"><div class="gd"></div><div><b>Pérdida de paridad (depeg)</b><p>Una stablecoin o un token &quot;envuelto&quot; (LST, BTC envuelto) pierde su valor de referencia (1:1).</p></div></div><div class="gi"><div class="gd"></div><div><b>Liquidación / deuda incobrable</b><p>En préstamos, si un prestatario no cubre su colateral se liquida; si falla, el déficit puede recaer sobre los depositantes.</p></div></div><div class="gi"><div class="gd"></div><div><b>Dependencia centralizada</b><p>Un curador, gestor, keeper u operador (o un proceso off-chain) controla decisiones clave del vault.</p></div></div><div class="gi"><div class="gd"></div><div><b>Retiro diferido (cola)</b><p>El retiro no es instantáneo: se procesa de forma asíncrona o por épocas (ERC-7540, settlement, cola de keeper).</p></div></div><div class="gi"><div class="gd"></div><div><b>Bloqueo temporal</b><p>Los fondos quedan bloqueados un período (lockup / unbonding) antes de poder retirarlos.</p></div></div><div class="gi"><div class="gd"></div><div><b>Sin auditoría pública</b><p>No se encontró auditoría de un tercero reconocido para el contrato.</p></div></div></div>
+  </section>
+</main>
+<footer>Guía conceptual de oportunidades de inversión en Base · datos al 2026-05-27 · informativo, no asesoría financiera.</footer>
+</body></html>
