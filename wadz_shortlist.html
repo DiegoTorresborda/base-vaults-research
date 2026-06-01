@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shortlist técnico — Base Lending USDC (WADZ+)</title>
+<style id="chainbar-css">
+.chainbar{background:#0b0b0d;border-bottom:1px solid #2a2a31;padding:8px 22px;display:flex;gap:11px;align-items:center;justify-content:center;font-size:11.5px;color:#6a6a74;flex-wrap:wrap;position:sticky;top:0;z-index:60;height:34px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.chainbar a{color:#9a9aa4;text-decoration:none;font-weight:500;padding:3px 8px;border-radius:5px;transition:.12s}
+.chainbar a:hover{color:#ededf0;background:#1c1c20}
+.chainbar a.cur{color:#34d399;background:#10b9811a}
+.chainbar .sep{color:#2a2a31;font-size:9px}
+.chainbar .lbl{color:#6a6a74;font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+</style>
+<style>
+:root{--bg:#0b0b0d;--card:#141417;--muted:#1c1c20;--muted2:#232329;--border:#2a2a31;--bsoft:#22222820;
+--fg:#ededf0;--fg2:#9a9aa4;--fg3:#6a6a74;--accent:#34d399;--accent-dim:#34d39922;--amber:#f0b429;--rose:#fb7185;--blue:#6aa8ff;
+--mono:"SF Mono","JetBrains Mono","Geist Mono",ui-monospace,monospace;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:38px 28px 80px}
+section{padding-top:36px;scroll-margin-top:64px}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+h1{font-size:28px;font-weight:600;letter-spacing:-.025em;margin:8px 0 10px;line-height:1.18}
+.lede{color:var(--fg2);font-size:14.5px;max-width:780px}
+.lede strong{color:var(--fg);font-weight:600}
+.s-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.s-head h2{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.s-head .note{font-size:12px;color:var(--fg3)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 6px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:13px 14px}
+.kpi .label{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--fg2)}
+.kpi .val{font-size:22px;font-weight:600;font-family:var(--mono);font-variant-numeric:tabular-nums;margin-top:5px;letter-spacing:-.02em}
+.kpi .val.acc{color:var(--accent)}
+.kpi .meta{font-size:11px;color:var(--fg3);margin-top:2px}
+.callout{background:linear-gradient(180deg,var(--accent-dim),transparent);border:1px solid var(--accent);border-left-width:3px;border-radius:6px;padding:12px 16px;color:var(--fg2);font-size:13px;margin-top:18px}
+.callout strong{color:var(--fg)}
+ul.bullets{list-style:none;display:grid;gap:9px;margin-top:6px;max-width:920px}
+ul.bullets li{position:relative;padding-left:18px;color:var(--fg2);font-size:13.5px}
+ul.bullets li::before{content:"";position:absolute;left:1px;top:9px;width:6px;height:6px;border-radius:2px;background:var(--accent)}
+ul.bullets li strong{color:var(--fg)}
+ol.ranking{counter-reset:r;list-style:none;display:grid;gap:11px;max-width:920px;margin-top:6px}
+ol.ranking li{position:relative;padding-left:30px;color:var(--fg2);font-size:13.5px;counter-increment:r}
+ol.ranking li::before{content:counter(r);position:absolute;left:0;top:0;width:21px;height:21px;border-radius:5px;background:var(--muted2);border:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600;display:flex;align-items:center;justify-content:center}
+ol.ranking li strong{color:var(--fg)}
+ol.ranking li code{font-family:var(--mono);font-size:12px;color:var(--fg);background:var(--muted2);padding:1px 6px;border-radius:4px}
+.card-wrap{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:4px}
+.card-wrap .ch{padding:12px 16px;border-bottom:1px solid var(--border);font-size:12.5px;font-weight:600;display:flex;justify-content:space-between;align-items:center;color:var(--fg)}
+.card-wrap .ch .hint{font-size:11px;color:var(--fg3);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg2);padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:#101013}
+thead th.num{text-align:right}
+tbody td{padding:9px 12px;border-bottom:1px solid var(--bsoft);white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.acc{color:var(--accent)}
+.muted{color:var(--fg2)}
+.addr{font-family:var(--mono);font-size:11px;color:var(--fg2);text-decoration:none}
+.addr:hover{color:var(--accent)}
+.vname{font-weight:500;color:var(--fg)}
+.tag{display:inline-flex;align-items:center;font-size:10.5px;font-weight:500;padding:1px 8px;border-radius:999px;background:var(--muted2);color:var(--fg);border:1px solid var(--border);letter-spacing:.01em}
+.tier{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid;font-family:var(--sans)}
+.tier::before{content:"";width:5px;height:5px;border-radius:50%}
+.tier-Low{color:var(--accent);border-color:#16433288;background:#10b9811a}.tier-Low::before{background:var(--accent)}
+.tier-Medium{color:var(--amber);border-color:#4a380f88;background:#f0b4291a}.tier-Medium::before{background:var(--amber)}
+.tier-High{color:var(--rose);border-color:#4a1d2488;background:#fb71851f}.tier-High::before{background:var(--rose)}
+.wd{font-size:11px;color:var(--fg3)}
+.reason{font-size:11.5px;color:var(--fg2);white-space:normal;max-width:520px}
+.scroll{overflow-x:auto}
+.removed-table tbody td{font-size:12px;padding:8px 12px}
+.removed-table .reason{color:var(--fg3)}
+@media(max-width:780px){.kpis{grid-template-columns:repeat(2,1fr)}}
+</style></head>
+<body>
+<div class="chainbar">
+  <a href="index.html">⌂ Inicio</a>
+  <span class="sep">●</span>
+  <span class="lbl">Base</span>
+  <a href="base_vaults_report.html">Dashboard</a>
+  <a href="oportunidades_inversion.html">Guía</a>
+  <a href="wadz_shortlist.html" class="cur">Shortlist</a>
+  <span class="sep">●</span>
+  <span class="lbl">Arbitrum</span>
+  <a href="arbitrum_vaults_report.html">Dashboard</a>
+  <a href="arbitrum_oportunidades.html">Guía</a>
+</div>
+<div class="wrap">
+  <div class="eyebrow">Curaduría técnica · Equipo WADZ+</div>
+  <h1>Shortlist técnico — Base lending USDC</h1>
+  <p class="lede">Filtro del equipo técnico aplicado sobre el <a href="base_vaults_report.html" style="color:var(--accent)">Base Vault Market Report</a> (snapshot 2026-05-27). Este es un <strong>filtro de mercado</strong>, no se limita a los providers ya implementados en los contratos del MVP — no se excluye un vault solo porque todavía no haya adapter para ese provider. El objetivo: mostrar vaults de Base que <strong>encajan con la arquitectura WADZ+</strong> y pertenecen a protocolos con tamaño, liquidez y señal de seguridad suficientes.</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="label">Vaults seleccionados (USDC)</div><div class="val acc">7</div><div class="meta">Tier 1 · TVL ≥ $10M · risk Low</div></div>
+    <div class="kpi"><div class="label">Candidato fuerte multi-asset</div><div class="val">1</div><div class="meta">wstETH · Aave v3 · $34.6M</div></div>
+    <div class="kpi"><div class="label">Watchlist (≥ $5M)</div><div class="val">3</div><div class="meta">WETH · msETH · EURC</div></div>
+    <div class="kpi"><div class="label">Lending removidos</div><div class="val">47</div><div class="meta">de 57 filas tagged <code style="font-family:var(--mono);font-size:11px">lending</code></div></div>
+  </div>
+
+  <div class="callout"><strong>Aclaración del equipo:</strong> respecto a la versión previa, este filtro es de mercado completo (no se restringe a los providers ya soportados en los contratos del MVP). Las filas no-lending del reporte (39 filas) se removieron sin justificación individual; el detalle empieza desde las <strong>57 filas tagged <code style="font-family:var(--mono);font-size:11.5px;color:var(--fg)">lending</code></strong>.</p></div>
+
+  <section id="criterios">
+    <div class="s-head"><h2>Criterios aplicados</h2></div>
+    <ul class="bullets">
+      <li><strong>Categoría:</strong> <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">lending</code> (excluyente).</li>
+      <li><strong>Activo subyacente:</strong> <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">USDC</code> — los specs actuales WADZ+ son Base + USDC-only.</li>
+      <li><strong>Metodología compatible:</strong> depósito en un provider/vault externo, sin estrategia propia WADZ, sin rebalanceo, sin LP/AMM, sin loops apalancados, sin RWA, sin restaking.</li>
+      <li><strong>Retiro:</strong> instantáneo o sujeto a liquidez del provider. Cualquier <em>queue</em>, lockup, epoch, o retiros impaired queda afuera.</li>
+      <li><strong>TVL mínimo:</strong> $10M. Por debajo, la liquidez es muy fina para un wrapper client-facing sin razón comercial separada.</li>
+      <li><strong>Calidad de protocolo:</strong> fuerte en este reporte — en la práctica, las filas quedan de <strong>Tier 1</strong>: Morpho MetaMorpho, Aave v3, Fluid.</li>
+      <li><strong>Risk flags incompatibles:</strong> ninguno de <code style="font-family:var(--mono);font-size:12px;color:var(--fg2)">smart_contract_unaudited</code>, <code style="font-family:var(--mono);font-size:12px;color:var(--fg2)">withdraw_queue</code>, <code style="font-family:var(--mono);font-size:12px;color:var(--fg2)">lockup</code>, <code style="font-family:var(--mono);font-size:12px;color:var(--fg2)">il_risk</code>, ni risk tier <strong>High</strong>.</li>
+      <li><strong>Sin APYs en cero:</strong> filas con net 30d APY = 0% quedan afuera.</li>
+    </ul>
+    <p style="margin-top:14px;color:var(--fg2);font-size:13px;max-width:920px">El reporte calcula un <code style="font-family:var(--mono);font-size:12px">risk_score</code> que suma señales (TVL bajo, protocolo chico, activos riesgosos, restricciones de retiro, falta de auditoría, dependencias del strategy). Clasifica en <span class="tier tier-Low">Low</span> (≤2), <span class="tier tier-Medium">Medium</span> (3–5), <span class="tier tier-High">High</span> (≥6). Se excluye <strong>High</strong> porque acumulan múltiples señales aunque ninguna sola alcance para rechazar.</p>
+    <p style="margin-top:10px;color:var(--fg2);font-size:13px;max-width:920px"><strong>Distinción importante:</strong> los vaults lending non-USDC quedan fuera del shortlist primario porque los specs son USDC-only. No significa que esos protocolos sean malos — una sección multi-asset captura candidatos buenos que requerirían extensión explícita de arquitectura.</p>
+  </section>
+
+  <section id="keep">
+    <div class="s-head"><h2>Vaults seleccionados</h2><span class="note">7 vaults USDC · Tier 1 · risk Low · TVL ≥ $10M</span></div>
+    <div class="card-wrap"><div class="scroll"><table>
+      <thead><tr><th>Vault</th><th>Protocolo</th><th class="num">TVL</th><th class="num">APY 30d</th><th>Risk</th><th>Withdrawal</th><th>Dirección</th></tr></thead>
+      <tbody>
+        <tr><td class="vname">Steakhouse Prime USDC</td><td>Morpho (MetaMorpho)</td><td class="num">$456.2M</td><td class="num acc">4.29%</td><td><span class="tier tier-Low">Low</span> <span class="num muted" style="margin-left:4px">/ 1</span></td><td class="wd">instant · subject to liquidity</td><td><a class="addr" href="https://basescan.org/address/0xBEEFE94c8aD530842bfE7d8B397938fFc1cb83b2" target="_blank" rel="noopener">0xBEEFE94c…83b2</a></td></tr>
+        <tr><td class="vname">Gauntlet USDC Prime</td><td>Morpho (MetaMorpho)</td><td class="num">$369.3M</td><td class="num acc">4.29%</td><td><span class="tier tier-Low">Low</span> <span class="num muted" style="margin-left:4px">/ 1</span></td><td class="wd">instant · subject to liquidity</td><td><a class="addr" href="https://basescan.org/address/0xeE8F4eC5672F09119b96Ab6fB59C27E1b7e44b61" target="_blank" rel="noopener">0xeE8F4eC5…4b61</a></td></tr>
+        <tr><td class="vname">Steakhouse USDC</td><td>Morpho (MetaMorpho)</td><td class="num">$301.7M</td><td class="num acc">3.82%</td><td><span class="tier tier-Low">Low</span> <span class="num muted" style="margin-left:4px">/ 1</span></td><td class="wd">instant · subject to liquidity</td><td><a class="addr" href="https://basescan.org/address/0xbeeF010f9cb27031ad51e3333f9aF9C6B1228183" target="_blank" rel="noopener">0xbeeF010f…8183</a></td></tr>
+        <tr><td class="vname">Pangolins USDC</td><td>Morpho (MetaMorpho)</td><td class="num">$36.2M</td><td class="num acc">4.28%</td><td><span class="tier tier-Low">Low</span> <span class="num muted" style="margin-left:4px">/ 2</span></td><td class="wd">instant · subject to liquidity</td><td><a class="addr" href="https://basescan.org/address/0x1401d1271C47648AC70cBcdfA3776D4A87CE006B" target="_blank" rel="noopener">0x1401d127…006B</a></td></tr>
+        <tr><td class="vname">Aave v3 Base aBasUSDC</td><td>Aave v3</td><td class="num">$30.4M</td><td class="num acc">3.21%</td><td><span class="tier tier-Low">Low</span> <span class="num muted" style="margin-left:4px">/ 2</span></td><td class="wd">instant · subject to liquidity</td><td><a class="addr" href="https://basescan.org/address/0x4e65fE4DbA92790696d040ac24Aa414708F5c0AB" target="_blank" rel="noopener">0x4e65fE4D…c0AB</a></td></tr>
+        <tr><td class="vname">Froge's USDC</td><td>Morpho (MetaMorpho)</td><td class="num">$23.8M</td><td class="num acc">4.28%</td><td><span class="tier tier-Low">Low</span> <span class="num muted" style="margin-left:4px">/ 2</span></td><td class="wd">instant · subject to liquidity</td><td><a class="addr" href="https://basescan.org/address/0x2C6D169782bF18Cc634D076Fe639092227B82fdA" target="_blank" rel="noopener">0x2C6D1697…2fdA</a></td></tr>
+        <tr><td class="vname">Fluid fUSDC</td><td>Fluid</td><td class="num">$11.7M</td><td class="num acc">5.52%</td><td><span class="tier tier-Low">Low</span> <span class="num muted" style="margin-left:4px">/ 2</span></td><td class="wd">instant · subject to liquidity</td><td><a class="addr" href="https://basescan.org/address/0xf42f5795D9ac7e9D757dB633D693cD548Cfd9169" target="_blank" rel="noopener">0xf42f5795…9169</a></td></tr>
+      </tbody>
+    </table></div></div>
+  </section>
+
+  <section id="multi">
+    <div class="s-head"><h2>Candidatos multi-activo</h2><span class="note">no reemplazan al shortlist USDC; requieren V2 (per-vault asset, oracle, license-cap, adapter por activo)</span></div>
+
+    <h3 style="font-size:13px;font-weight:600;color:var(--fg);margin:18px 0 8px">Candidato fuerte</h3>
+    <p style="color:var(--fg2);font-size:12.5px;max-width:760px;margin-bottom:10px">Pasa el mismo piso de $10M de TVL que el shortlist primario.</p>
+    <div class="card-wrap"><div class="scroll"><table>
+      <thead><tr><th>Vault</th><th>Protocolo</th><th>Activo</th><th class="num">TVL</th><th class="num">APY 30d</th><th>Risk</th><th>Withdrawal</th><th>Dirección</th></tr></thead>
+      <tbody>
+        <tr><td class="vname">Aave v3 Base aBaswstETH</td><td>Aave v3</td><td><span class="tag">wstETH</span></td><td class="num">$34.6M</td><td class="num acc">1.45%</td><td><span class="tier tier-Medium">Medium</span> <span class="num muted" style="margin-left:4px">/ 3</span></td><td class="wd">instant · subject to liquidity</td><td><a class="addr" href="https://basescan.org/address/0x99CBC45ea5bb7eF3a5BC08FB1B7E56bB2442Ef0D" target="_blank" rel="noopener">0x99CBC45e…Ef0D</a></td></tr>
+      </tbody>
+    </table></div></div>
+
+    <h3 style="font-size:13px;font-weight:600;color:var(--fg);margin:22px 0 8px">Watchlist secundaria</h3>
+    <p style="color:var(--fg2);font-size:12.5px;max-width:760px;margin-bottom:10px">Piso relajado a $5M. Opciones de mercado razonables para mostrar al cliente, pero requieren más diligence por liquidez materialmente más fina.</p>
+    <div class="card-wrap"><div class="scroll"><table>
+      <thead><tr><th>Vault</th><th>Protocolo</th><th>Activo</th><th class="num">TVL</th><th class="num">APY 30d</th><th>Risk</th><th>Caveat</th><th>Dirección</th></tr></thead>
+      <tbody>
+        <tr><td class="vname">Moonwell Flagship ETH</td><td>Morpho (MetaMorpho)</td><td><span class="tag">WETH</span></td><td class="num">$8.8M</td><td class="num acc">2.23%</td><td><span class="tier tier-Medium">Medium</span> <span class="num muted" style="margin-left:4px">/ 3</span></td><td class="reason">Bajo piso primario de $10M.</td><td><a class="addr" href="https://basescan.org/address/0xa0E430870c4604CcfC7B38Ca7845B1FF653D0ff1" target="_blank" rel="noopener">0xa0E43087…0ff1</a></td></tr>
+        <tr><td class="vname">Metronome msETH Vault</td><td>Morpho (MetaMorpho)</td><td><span class="tag">msETH</span></td><td class="num">$6.7M</td><td class="num acc">2.57%</td><td><span class="tier tier-Medium">Medium</span> <span class="num muted" style="margin-left:4px">/ 4</span></td><td class="reason">Bajo $10M; msETH suma riesgo de derivado/depeg.</td><td><a class="addr" href="https://basescan.org/address/0x43Cd00De63485618A5CEEBE0de364cD6cBeB26E7" target="_blank" rel="noopener">0x43Cd00De…26E7</a></td></tr>
+        <tr><td class="vname">Aave v3 Base aBasEURC</td><td>Aave v3</td><td><span class="tag">EURC</span></td><td class="num">$6.6M</td><td class="num acc">1.96%</td><td><span class="tier tier-Medium">Medium</span> <span class="num muted" style="margin-left:4px">/ 3</span></td><td class="reason">Bajo $10M; activo EUR suma trabajo de FX/accounting.</td><td><a class="addr" href="https://basescan.org/address/0x90DA57E0A6C0d166Bf15764E03b83745Dc90025B" target="_blank" rel="noopener">0x90DA57E0…025B</a></td></tr>
+      </tbody>
+    </table></div></div>
+
+    <p style="margin-top:14px;color:var(--fg3);font-size:12.5px;max-width:920px">Sumar cualquiera requiere el trabajo de V2 ya anticipado en <code style="font-family:var(--mono);font-size:12px">specs/01-architecture.md</code>: soporte de activo por vault, política de pricing/oracle aprobada, denominación de license-cap, y un adapter de provider que soporte el activo.</p>
+  </section>
+
+  <section id="lectura">
+    <div class="s-head"><h2>Lectura práctica</h2></div>
+    <ol class="ranking">
+      <li><strong><code>Steakhouse Prime USDC</code> y <code>Gauntlet USDC Prime</code>:</strong> los vaults USDC lending más grandes de Base en el reporte, risk score bajo, liquidez fuerte, infra MetaMorpho.</li>
+      <li><strong><code>Steakhouse USDC</code>:</strong> también muy grande y low-risk; APY 30d un poco más bajo que los Prime.</li>
+      <li><strong><code>Aave v3 Base aBasUSDC</code>:</strong> modelo de provider más simple y la marca de protocolo más fuerte, aunque con menos TVL/APY que los top MetaMorpho USDC.</li>
+      <li><strong><code>Fluid fUSDC</code>:</strong> debe mostrarse al cliente como candidato de mercado serio fuera del MVP-provider. Encaja con la metodología (architecture-fit), señal Tier 1, USDC, redeem instantáneo sujeto a liquidez, y el APY 30d más alto del shortlist. Requeriría un adapter nuevo si se selecciona.</li>
+    </ol>
+    <p style="margin-top:14px;color:var(--fg2);font-size:13px;max-width:920px"><code style="font-family:var(--mono);font-size:12.5px">Pangolins USDC</code> y <code style="font-family:var(--mono);font-size:12.5px">Froge's USDC</code> entran al shortlist porque el filtro previo (curator-shortlist OD-08) era el filtro equivocado para esta tarea. Son vaults USDC lending de MetaMorpho con TVL suficiente y risk score bajo en el reporte fuente.</p>
+  </section>
+
+  <section id="removed">
+    <div class="s-head"><h2>Vaults lending removidos</h2><span class="note">solo filas lending excluidas de ambos shortlists · 47 vaults · las no-lending no se listan</span></div>
+    <div class="card-wrap"><div class="scroll"><table class="removed-table">
+      <thead><tr><th>Vault</th><th>Protocolo</th><th>Activo</th><th class="num">TVL</th><th class="num">APY 30d</th><th>Razón</th></tr></thead>
+      <tbody>
+        <tr><td>Aave v3 Base aBascbBTC</td><td>Aave v3</td><td>cbBTC</td><td class="num">$144.3M</td><td class="num">0.02%</td><td class="reason">non-USDC asset (specs USDC-only).</td></tr>
+        <tr><td>Aave v3 Base aBasweETH</td><td>Aave v3</td><td>weETH</td><td class="num">$55.0M</td><td class="num">0.00%</td><td class="reason">non-USDC asset; APY 30d = 0.</td></tr>
+        <tr><td>Aave v3 Base aBasWETH</td><td>Aave v3</td><td>WETH</td><td class="num">$34.1M</td><td class="num">0.00%</td><td class="reason">non-USDC asset; APY 30d = 0.</td></tr>
+        <tr><td>Aave v3 Base aBascbETH</td><td>Aave v3</td><td>cbETH</td><td class="num">$28.7M</td><td class="num">0.04%</td><td class="reason">non-USDC asset.</td></tr>
+        <tr><td>Aave v3 Base aBassyrupUSDC</td><td>Aave v3</td><td>syrupUSDC</td><td class="num">$18.9M</td><td class="num">0.00%</td><td class="reason">non-USDC asset; APY 30d = 0.</td></tr>
+        <tr><td>Moonwell MORPHO</td><td>Moonwell</td><td>MORPHO</td><td class="num">$12.3M</td><td class="num">0.14%</td><td class="reason">non-USDC asset; protocolo Tier 3.</td></tr>
+        <tr><td>Moonwell Flagship USDC</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$9.2M</td><td class="num">5.20%</td><td class="reason">TVL &lt; $10M.</td></tr>
+        <tr><td>Spark USDC Vault</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$8.7M</td><td class="num">3.85%</td><td class="reason">TVL &lt; $10M.</td></tr>
+        <tr><td>Moonwell cbBTC</td><td>Moonwell</td><td>cbBTC</td><td class="num">$8.3M</td><td class="num">0.51%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>40 Acres USDC vault</td><td>40 Acres</td><td>USDC</td><td class="num">$7.8M</td><td class="num">10.61%</td><td class="reason">TVL &lt; $10M; Tier 3; flags il_risk, smart_contract_unaudited, withdraw_queue; risk tier High.</td></tr>
+        <tr><td>Moonwell AERO</td><td>Moonwell</td><td>AERO</td><td class="num">$5.7M</td><td class="num">1.37%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Steakhouse High Yield USDC v1.1</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$4.2M</td><td class="num">5.41%</td><td class="reason">TVL &lt; $10M.</td></tr>
+        <tr><td>Moonwell LBTC</td><td>Moonwell</td><td>LBTC</td><td class="num">$3.8M</td><td class="num">0.12%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Fluid fWETH</td><td>Fluid</td><td>WETH</td><td class="num">$3.7M</td><td class="num">0.75%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>Fluid fwstETH</td><td>Fluid</td><td>wstETH</td><td class="num">$3.3M</td><td class="num">0.09%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>Clearstar USDC Reactor</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$2.6M</td><td class="num">5.24%</td><td class="reason">TVL &lt; $10M.</td></tr>
+        <tr><td>Moonwell WETH</td><td>Moonwell</td><td>WETH</td><td class="num">$2.5M</td><td class="num">0.87%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Moonwell cbXRP</td><td>Moonwell</td><td>cbXRP</td><td class="num">$2.3M</td><td class="num">0.79%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Yearn OG USDC</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$2.1M</td><td class="num">4.72%</td><td class="reason">TVL &lt; $10M; flag il_risk.</td></tr>
+        <tr><td>OUSD Vault V1</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$2.1M</td><td class="num">4.88%</td><td class="reason">TVL &lt; $10M; flag il_risk.</td></tr>
+        <tr><td>Moonwell Frontier cbBTC</td><td>Morpho (MetaMorpho)</td><td>cbBTC</td><td class="num">$2.0M</td><td class="num">0.76%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>Gauntlet USDC Core</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$2.0M</td><td class="num">3.85%</td><td class="reason">TVL &lt; $10M.</td></tr>
+        <tr><td>Aave v3 Base aBasLBTC</td><td>Aave v3</td><td>LBTC</td><td class="num">$1.9M</td><td class="num">0.00%</td><td class="reason">non-USDC; TVL &lt; $10M; APY = 0.</td></tr>
+        <tr><td>Moonwell wstETH</td><td>Moonwell</td><td>wstETH</td><td class="num">$1.9M</td><td class="num">0.17%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Fluid fEURC</td><td>Fluid</td><td>EURC</td><td class="num">$1.9M</td><td class="num">2.59%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>Moonwell rETH</td><td>Moonwell</td><td>rETH</td><td class="num">$1.8M</td><td class="num">0.00%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3; APY = 0.</td></tr>
+        <tr><td>Moonwell cbETH</td><td>Moonwell</td><td>cbETH</td><td class="num">$1.6M</td><td class="num">0.67%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Moonwell USDC</td><td>Moonwell</td><td>USDC</td><td class="num">$1.5M</td><td class="num">5.21%</td><td class="reason">TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Moonwell Flagship EURC</td><td>Morpho (MetaMorpho)</td><td>EURC</td><td class="num">$1.4M</td><td class="num">2.14%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>Moonwell VVV</td><td>Moonwell</td><td>VVV</td><td class="num">$1.3M</td><td class="num">0.00%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3; APY = 0.</td></tr>
+        <tr><td>Seamless WETH Vault</td><td>Morpho (MetaMorpho)</td><td>WETH</td><td class="num">$1.1M</td><td class="num">0.00%</td><td class="reason">non-USDC; TVL &lt; $10M; APY = 0.</td></tr>
+        <tr><td>Grove x Steakhouse USDC High Yield</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$1.0M</td><td class="num">4.28%</td><td class="reason">TVL &lt; $10M; flag il_risk.</td></tr>
+        <tr><td>Compound v3 USDC Comet (cUSDCv3)</td><td>Compound v3</td><td>USDC</td><td class="num">$928K</td><td class="num">0.00%</td><td class="reason">TVL &lt; $10M; Tier 3; APY = 0.</td></tr>
+        <tr><td>Gauntlet WETH Core</td><td>Morpho (MetaMorpho)</td><td>WETH</td><td class="num">$885K</td><td class="num">2.92%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>Morpho Base wETH</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$880K</td><td class="num">4.28%</td><td class="reason">TVL &lt; $10M.</td></tr>
+        <tr><td>Fluid fGHO</td><td>Fluid</td><td>GHO</td><td class="num">$827K</td><td class="num">4.56%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>Seamless USDC Vault</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$813K</td><td class="num">0.00%</td><td class="reason">TVL &lt; $10M; APY = 0.</td></tr>
+        <tr><td>Steakhouse ETH</td><td>Morpho (MetaMorpho)</td><td>WETH</td><td class="num">$705K</td><td class="num">1.81%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>Extrafi XLend WETH</td><td>Morpho (MetaMorpho)</td><td>WETH</td><td class="num">$660K</td><td class="num">1.54%</td><td class="reason">non-USDC; TVL &lt; $10M.</td></tr>
+        <tr><td>UltraYield USDC</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$648K</td><td class="num">6.81%</td><td class="reason">TVL &lt; $10M.</td></tr>
+        <tr><td>Arcadia V2 cbBTC Lending Pool</td><td>Arcadia Finance</td><td>cbBTC</td><td class="num">$645K</td><td class="num">2.07%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Moonwell WELL</td><td>Moonwell</td><td>WELL</td><td class="num">$593K</td><td class="num">0.87%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Moonwell VIRTUAL</td><td>Moonwell</td><td>VIRTUAL</td><td class="num">$566K</td><td class="num">2.24%</td><td class="reason">non-USDC; TVL &lt; $10M; Tier 3.</td></tr>
+        <tr><td>Yield Clearstar USDC</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$562K</td><td class="num">5.09%</td><td class="reason">TVL &lt; $10M.</td></tr>
+        <tr><td>Safe x Steakhouse USDC</td><td>Morpho (MetaMorpho)</td><td>USDC</td><td class="num">$557K</td><td class="num">3.85%</td><td class="reason">TVL &lt; $10M; flag il_risk; risk tier High.</td></tr>
+        <tr><td>Clearstar ETH Reactor</td><td>Morpho (MetaMorpho)</td><td>WETH</td><td class="num">$514K</td><td class="num">n/a</td><td class="reason">non-USDC; TVL &lt; $10M; APY = 0/no data.</td></tr>
+      </tbody>
+    </table></div></div>
+  </section>
+</div></body></html>
