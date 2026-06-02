@@ -1,0 +1,293 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análisis de vaults Morpho — Base</title>
+<style id="chainbar-css">
+.chainbar{background:#0b0b0d;border-bottom:1px solid #2a2a31;padding:8px 22px;display:flex;gap:11px;align-items:center;justify-content:center;font-size:11.5px;color:#6a6a74;flex-wrap:wrap;position:sticky;top:0;z-index:60;height:34px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.chainbar a{color:#9a9aa4;text-decoration:none;font-weight:500;padding:3px 8px;border-radius:5px;transition:.12s}
+.chainbar a:hover{color:#ededf0;background:#1c1c20}
+.chainbar a.cur{color:#34d399;background:#10b9811a}
+.chainbar .sep{color:#2a2a31;font-size:9px}
+.chainbar .lbl{color:#6a6a74;font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+</style>
+<style>
+:root{--bg:#0b0b0d;--card:#141417;--muted:#1c1c20;--muted2:#232329;--border:#2a2a31;--bsoft:#22222820;
+--fg:#ededf0;--fg2:#9a9aa4;--fg3:#6a6a74;--accent:#34d399;--accent-dim:#34d39922;--amber:#f0b429;--rose:#fb7185;--blue:#6aa8ff;--violet:#a78bfa;
+--mono:"SF Mono","JetBrains Mono","Geist Mono",ui-monospace,monospace;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:38px 28px 80px}
+section{padding-top:38px;scroll-margin-top:64px}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--violet)}
+h1{font-size:28px;font-weight:600;letter-spacing:-.025em;margin:8px 0 10px;line-height:1.18}
+.lede{color:var(--fg2);font-size:14.5px;max-width:780px}
+.lede strong{color:var(--fg);font-weight:600}
+.meta-chips{display:flex;gap:8px;margin:14px 0 6px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:500;padding:3px 11px;border-radius:999px;border:1px solid var(--border);color:var(--fg2);background:var(--muted)}
+.chip.acc{color:var(--violet);border-color:#3a2d6688;background:#a78bfa14}
+.disc{margin-top:14px;font-size:12.5px;color:var(--fg2);background:var(--card);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:6px;padding:11px 14px}
+.s-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.s-head h2{font-size:19px;font-weight:600;letter-spacing:-.02em}
+.s-head .note{font-size:12px;color:var(--fg3)}
+h3{font-size:15px;font-weight:600;margin:18px 0 8px}
+.insight{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:18px 20px;margin-bottom:14px;display:grid;gap:14px}
+.insight .pt{display:flex;gap:13px;align-items:flex-start}
+.insight .pt .n{flex:none;width:26px;height:26px;border-radius:7px;background:var(--accent-dim);border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.insight .pt .b{color:var(--fg2);font-size:13.5px}
+.insight .pt .b strong{color:var(--fg)}
+.insight .pt .b code{font-family:var(--mono);font-size:12.5px;color:var(--fg);background:var(--muted2);padding:1px 6px;border-radius:4px}
+.conseq{margin-top:4px;color:var(--fg2);font-size:13px;border-top:1px dashed var(--border);padding-top:12px}
+.conseq strong{color:var(--fg)}
+.card-wrap{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:4px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg2);padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:#101013}
+thead th.num{text-align:right}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--bsoft);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.muted{color:var(--fg2)}
+.acc{color:var(--accent)}
+.label-row{font-weight:600;color:var(--fg);white-space:nowrap}
+.label-row.sub{color:var(--fg3);font-weight:500;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em}
+.bullet{color:var(--accent)}
+.bad{color:var(--rose)}
+.warn{color:var(--amber)}
+.vault-h{background:#101013;color:var(--fg);font-weight:600}
+.vault-h.col-pang{color:var(--rose)}
+.vault-h.col-steak{color:var(--accent)}
+.vault-h.col-gtUSDC{color:var(--accent)}
+.vault-h.col-mwETH{color:var(--blue)}
+.vault-h.col-gtwethb{color:var(--blue)}
+.vault-h.col-mse{color:var(--violet)}
+.lectura{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-top:12px}
+.lectura h4{font-size:13.5px;font-weight:600;margin:0 0 6px;color:var(--fg);display:flex;align-items:center;gap:8px}
+.lectura h4 .role{font-size:11px;color:var(--fg3);font-style:italic;font-weight:500}
+.lectura p{color:var(--fg2);font-size:13px;margin:0 0 6px}
+.lectura p strong{color:var(--fg)}
+.lectura em{color:var(--amber)}
+.lectura code{font-family:var(--mono);font-size:12px;color:var(--fg);background:var(--muted2);padding:1px 6px;border-radius:4px}
+.verdict{background:linear-gradient(180deg,var(--accent-dim),transparent);border:1px solid var(--accent);border-left-width:3px;border-radius:6px;padding:13px 16px;color:var(--fg2);font-size:13.5px;margin-top:14px}
+.verdict strong{color:var(--fg)}
+.verdict.alt{background:linear-gradient(180deg,#a78bfa1a,transparent);border-color:var(--violet);color:var(--fg2)}
+ul.bullets{list-style:none;display:grid;gap:8px;margin-top:6px;max-width:900px}
+ul.bullets li{position:relative;padding-left:18px;color:var(--fg2);font-size:13.5px}
+ul.bullets li::before{content:"";position:absolute;left:1px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+ul.bullets li strong{color:var(--fg)}
+ul.checklist{list-style:none;display:grid;gap:9px;margin-top:6px;max-width:900px}
+ul.checklist li{position:relative;padding-left:24px;color:var(--fg2);font-size:13.5px}
+ul.checklist li::before{content:"";position:absolute;left:0;top:4px;width:13px;height:13px;border-radius:3px;border:1.5px solid var(--fg3);background:transparent}
+ul.checklist li strong{color:var(--fg)}
+/* decision tree (replaces mermaid) */
+.flow{margin-top:14px;display:grid;gap:14px}
+.flow-root{align-self:center;background:var(--accent-dim);border:1px solid var(--accent);color:var(--fg);padding:10px 18px;border-radius:8px;font-weight:600;text-align:center;justify-self:center;font-size:13.5px}
+.flow-branch{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.branch-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:16px 18px}
+.branch-card .bh{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.branch-card.usd .bh{color:var(--accent)}
+.branch-card.eth .bh{color:var(--blue)}
+.branch-card .bh::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%}
+.branch-card.usd .bh::before{background:var(--accent)}
+.branch-card.eth .bh::before{background:var(--blue)}
+.option{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid var(--border);border-radius:6px;margin-top:9px;background:#101013}
+.option .o-cond{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.option .o-pick{font-size:13.5px;color:var(--fg);font-weight:600}
+.option .o-meta{font-size:11.5px;color:var(--fg2);font-family:var(--mono)}
+.option.warn{border-color:#4a380f88;background:#f0b4290a}
+.option.warn .o-pick{color:var(--amber)}
+@media(max-width:760px){.flow-branch{grid-template-columns:1fr}}
+.todo-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-top:6px}
+</style></head>
+<body>
+<div class="chainbar">
+  <a href="index.html">⌂ Inicio</a>
+  <span class="sep">●</span>
+  <span class="lbl">Base</span>
+  <a href="base_vaults_report.html">Dashboard</a>
+  <a href="oportunidades_inversion.html">Guía</a>
+  <a href="wadz_shortlist.html">Shortlist</a>
+  <a href="analisis_morpho_base.html" class="cur">Análisis</a>
+  <span class="sep">●</span>
+  <span class="lbl">Arbitrum</span>
+  <a href="arbitrum_vaults_report.html">Dashboard</a>
+  <a href="arbitrum_oportunidades.html">Guía</a>
+</div>
+<div class="wrap">
+  <div class="eyebrow">Análisis profundo · Due diligence</div>
+  <h1>Análisis de vaults Morpho en Base</h1>
+  <p class="lede">Due diligence comparativa de los principales vaults de <strong>Morpho</strong> en Base, separados por categoría: <strong>stablecoin (USDC)</strong> y <strong>ETH (WETH)</strong>. Lectura por vault, framework de decisión y pendientes de verificación.</p>
+  <div class="meta-chips">
+    <span class="chip acc">Network · Base (8453)</span>
+    <span class="chip">Fuente · Morpho API (blue-api.morpho.org)</span>
+    <span class="chip">Snapshot · 2 de junio de 2026</span>
+  </div>
+  <div class="disc">Documento informativo para due diligence — <b>no es asesoría financiera</b>. Las cifras (TVL, APY, asignación, utilización) son dinámicas y deben re-verificarse antes de operar.</div>
+
+  <section id="insight">
+    <div class="s-head"><h2>0. Insight transversal</h2><span class="note">leer primero</span></div>
+    <div class="insight">
+      <div class="pt"><div class="n">1</div><div class="b"><strong>Los vaults USDC "blue chip" rinden lo mismo (~4.25%) porque prestan al mismo mercado: <code>USDC/cbBTC</code> en Base.</strong> El APY no es mérito del curador — es el rate del mercado subyacente. Por eso, en stables no se elige por yield sino por <strong>perfil de riesgo a igual retorno</strong>.</div></div>
+      <div class="pt"><div class="n">2</div><div class="b"><strong>Todo el lending de ETH rinde ~1.6–2.1% en Base.</strong> No es defecto de ningún vault: la demanda de <em>borrow</em> de ETH es estructuralmente baja (casi todo es LST looping). El yield ETH es bajo en toda la categoría.</div></div>
+      <div class="conseq"><strong>Consecuencia práctica:</strong> stables y ETH son productos distintos. El vault USDC te paga en dólares sin exposición a precio de ETH; el vault WETH te paga en ETH y asumís todo el riesgo de precio de ETH. <strong>No son comparables por APY nominal.</strong></div>
+    </div>
+  </section>
+
+  <section id="stables">
+    <div class="s-head"><h2>1. Vaults de Stablecoin (USDC)</h2></div>
+
+    <h3>1.1 Comparativa</h3>
+    <div class="card-wrap"><div class="scroll"><table>
+      <thead><tr><th></th><th class="vault-h col-pang">Pangolins USDC</th><th class="vault-h col-steak">Steakhouse Prime USDC</th><th class="vault-h col-gtUSDC">Gauntlet USDC Prime</th></tr></thead>
+      <tbody>
+        <tr><td class="label-row">Símbolo</td><td>pUSDC</td><td>steakUSDC</td><td>gtUSDCp</td></tr>
+        <tr><td class="label-row">TVL</td><td class="num">$32.7M</td><td class="num"><strong>$453M</strong></td><td class="num">$329M</td></tr>
+        <tr><td class="label-row">Net APY</td><td class="num acc">4.25%</td><td class="num acc">4.25%</td><td class="num acc">4.25%</td></tr>
+        <tr><td class="label-row">Performance fee</td><td class="num">0%</td><td class="num">0%</td><td class="num">0%</td></tr>
+        <tr><td class="label-row">Timelock</td><td><strong>3 días</strong></td><td>7 días</td><td>7 días</td></tr>
+        <tr><td class="label-row">Antigüedad</td><td>~6.5 meses</td><td>~10 meses</td><td><strong>~2 años</strong></td></tr>
+        <tr><td class="label-row">Curator</td><td>Pangolins (nuevo)</td><td>Steakhouse (&gt;$1.8B AUM)</td><td>Gauntlet (tier-1)</td></tr>
+        <tr><td class="label-row">Concentración cbBTC</td><td><strong class="bad">100%</strong></td><td>95.4%</td><td>92.8%</td></tr>
+        <tr><td class="label-row">Diversificación</td><td>Ninguna</td><td>+WETH 4.3%</td><td>+WETH 6.3%</td></tr>
+        <tr><td class="label-row">Owner / Guardian</td><td><strong class="bad">Sin verificar</strong></td><td>Multisig conocido</td><td>Multisig conocido</td></tr>
+      </tbody>
+    </table></div></div>
+
+    <h3>1.2 Lectura por vault</h3>
+    <div class="lectura">
+      <h4>Pangolins USDC <span class="role">— Sujeto del análisis</span></h4>
+      <p>APY decente y limpio (orgánico, 0% fee), pero perfil <strong>mono-mercado, sin buffer idle, LLTV cbBTC 86% y curador sin historial largo</strong>. El cbBTC suma riesgo de custodia/contraparte centralizada (Coinbase) sobre el riesgo de precio de BTC. TVL históricamente volátil (whale-driven: de ~$5M a ~$38M en meses), lo que indica base de depositantes concentrada. Owner/guardian sin verificar como multisig.</p>
+    </div>
+    <div class="lectura">
+      <h4>Steakhouse Prime USDC <span class="role">— Alternativa 1 · robustez máxima</span></h4>
+      <p>Mismo 4.25% que Pangolins, pero con el mayor TVL del segmento ($453M), curador tier-1 con reputación sobre miles de millones, timelock de 7d (más protección), diversificación marginal en WETH y multisig conocido. <strong>La opción por defecto para tesorería o tickets institucionales.</strong></p>
+    </div>
+    <div class="lectura">
+      <h4>Gauntlet USDC Prime <span class="role">— Alternativa 2 · algo más diversificado</span></h4>
+      <p>Idéntico retorno, curador tier-1, 2 años de track record (el más maduro), mayor % en WETH (6.3%) como colchón fuera de cbBTC. 7d timelock. <strong>Equivalente a Steakhouse Prime en calidad; elegir por preferencia de curador.</strong></p>
+    </div>
+
+    <h3>1.3 Veredicto stables</h3>
+    <div class="verdict">A precio de riesgo, <strong>Pangolins está dominado</strong>: ofrece el mismo 4.25% que los Prime pero con curador sin historial, timelock más corto, cero diversificación y claves de admin sin verificar. Para capital que solo busca rendimiento, <strong>Steakhouse Prime USDC o Gauntlet USDC Prime</strong> son superiores en todos los ejes de riesgo al mismo retorno.</div>
+    <div class="verdict alt"><strong>Pangolins solo se justifica</strong> por una razón fuera del retorno puro: relación con el curador, soporte al ecosistema (Pangolins = comunidad DeFi del mundo chino; ángulo de <strong>partnership/BD interesante</strong>), o apuesta temprana a que diversifique a mercados de mayor yield.</div>
+  </section>
+
+  <section id="eth">
+    <div class="s-head"><h2>2. Vaults de ETH (WETH)</h2></div>
+
+    <h3>2.1 Comparativa</h3>
+    <div class="card-wrap"><div class="scroll"><table>
+      <thead><tr><th></th><th class="vault-h col-mwETH">Moonwell Flagship ETH</th><th class="vault-h col-gtwethb">Gauntlet WETH Balanced</th><th class="vault-h col-mse">Metronome msETH</th></tr></thead>
+      <tbody>
+        <tr><td class="label-row">Símbolo</td><td>mwETH</td><td>gtwethb</td><td>gtmsETHc</td></tr>
+        <tr><td class="label-row">Activo base</td><td>WETH</td><td>WETH</td><td><strong class="warn">msETH</strong> (synth)</td></tr>
+        <tr><td class="label-row">Arquitectura</td><td>V1 (MetaMorpho)</td><td><strong>V2</strong></td><td>V1</td></tr>
+        <tr><td class="label-row">TVL</td><td class="num"><strong>$8.2M</strong></td><td class="num">$2.52M</td><td class="num">$6.2M</td></tr>
+        <tr><td class="label-row">Net APY</td><td class="num acc">1.78%</td><td class="num acc">1.63%</td><td class="num acc"><strong>2.08%</strong></td></tr>
+        <tr><td class="label-row">Performance fee</td><td class="num">15%</td><td class="num"><strong>0%</strong></td><td class="num">5%</td></tr>
+        <tr><td class="label-row">Management fee</td><td class="num muted">—</td><td class="num"><strong>0%</strong></td><td class="num muted">—</td></tr>
+        <tr><td class="label-row">Timelock</td><td>4 días</td><td class="muted">—</td><td>3 días</td></tr>
+        <tr><td class="label-row">Antigüedad</td><td>~2 años</td><td>~7 meses</td><td class="muted">—</td></tr>
+        <tr><td class="label-row">Curator</td><td>Block Analitica</td><td>Gauntlet (tier-1)</td><td>Gauntlet (tier-1)</td></tr>
+        <tr><td class="label-row">Colateral</td><td>LSTs (wstETH 79% / weETH 10% / cbETH 5%)</td><td>1 adapter Blue (~100%)</td><td>LST-based</td></tr>
+        <tr><td class="label-row">Buffer idle</td><td class="num">4.2%</td><td class="num">~0%</td><td class="num muted">—</td></tr>
+        <tr><td class="label-row">Rewards</td><td>WELL ~0.45%</td><td class="muted">—</td><td class="muted">—</td></tr>
+      </tbody>
+    </table></div></div>
+
+    <h3>2.2 Lectura por vault</h3>
+    <div class="lectura">
+      <h4>Moonwell Flagship ETH <span class="role">— Sujeto del análisis</span></h4>
+      <p>Bien construido: curador con 2 años de track record, owner multisig, colateral diversificado en LSTs con buffer idle, LLTV 94.5% coherente con colateral correlacionado (wstETH/ETH apenas diverge → riesgo real = de-peg de LST u oráculo, no volatilidad ordinaria). <strong>Es el vault WETH más grande de Morpho en Base por lejos.</strong></p>
+      <p><em>Señal de atención:</em> TVL en <strong>declive secular fuerte</strong> (~$144M pico dic-2024 → ~$8.2M hoy, −94%). No es bandera de seguridad sino de product-market fit: el lending de ETH en Base perdió tracción al comprimirse el yield. Fee alto (15%).</p>
+    </div>
+    <div class="lectura">
+      <h4>Gauntlet WETH Balanced (V2) <span class="role">— Alternativa 1 · curador tier-1 + cero fees</span></h4>
+      <p>Curador Gauntlet, <strong>0% performance + 0% management fee</strong>, owner multisig conocido. Es <strong>Morpho V2</strong>: arquitectura basada en <em>adapters</em> que puede rutear a múltiples venues (Blue + otros vaults), caps por factor de riesgo, soporte fixed-rate/fixed-term y <strong>force-deallocate con penalty</strong>. Hoy, pese al nombre "Balanced", está ~100% vía un solo adapter <code>MorphoMarketV1</code> (mono-fuente), con un segundo adapter en ~$0 listo para diversificar.</p>
+      <p><em>Peros:</em> rinde <strong>menos neto que Moonwell (1.63% vs 1.78%) pese a 0% de fees</strong> → Gauntlet selecciona mercado más conservador. TVL chico ($2.52M), idle ~0 → liquidez de salida fina (atención al penalty de force-deallocate). V2 menos batalla-probado que V1.</p>
+    </div>
+    <div class="lectura">
+      <h4>Metronome msETH <span class="role">— Alternativa 2 · más exótica, no recomendada salvo caso específico</span></h4>
+      <p>Denominado en <strong>msETH</strong> (ETH sintético de Metronome), no en WETH. Para usarlo hay que mintear/comprar msETH → agrega <strong>riesgo de peg del synth, riesgo de redención del protocolo Metronome y liquidez secundaria fina</strong>. El yield (2.08%) es apenas mejor que Moonwell, no compensa la capa extra de riesgo. <strong>Solo tiene sentido si ya estás dentro del ecosistema Metronome.</strong></p>
+    </div>
+
+    <h3>2.3 Veredicto ETH</h3>
+    <ul class="bullets">
+      <li><strong>Mejor yield/liquidez en Base hoy:</strong> Moonwell Flagship ETH (1.78%, $8.2M, V1 maduro) — sigue siendo el techo de la categoría en Base pese al fee alto y el TVL en caída.</li>
+      <li><strong>Curador tier-1 + cero fees en Base:</strong> Gauntlet WETH Balanced — defendible para quien priorice curador y fees por encima de yield/liquidez, y tolere V2 nuevo + TVL chico. Probable mejora cuando active el segundo adapter y suba TVL.</li>
+      <li><strong>Metronome msETH:</strong> lateral con más riesgo (synth). Evitar salvo exposición previa a msETH.</li>
+    </ul>
+  </section>
+
+  <section id="framework">
+    <div class="s-head"><h2>3. Framework de decisión</h2></div>
+    <div class="flow">
+      <div class="flow-root">Objetivo de yield en Base</div>
+      <div class="flow-branch">
+        <div class="branch-card usd">
+          <div class="bh">USD / Stablecoin</div>
+          <div class="option">
+            <span class="o-cond">Robustez · tesorería</span>
+            <span class="o-pick">Steakhouse Prime USDC</span>
+            <span class="o-meta">$453M · tier-1 · 7d · 0% fee</span>
+          </div>
+          <div class="option">
+            <span class="o-cond">Diversificación + curador maduro</span>
+            <span class="o-pick">Gauntlet USDC Prime</span>
+            <span class="o-meta">$329M · tier-1 · 7d · 0% fee</span>
+          </div>
+          <div class="option warn">
+            <span class="o-cond">Razón extra-financiera (partnership / ecosistema)</span>
+            <span class="o-pick">Pangolins USDC</span>
+            <span class="o-meta">solo con monitoreo</span>
+          </div>
+        </div>
+        <div class="branch-card eth">
+          <div class="bh">ETH</div>
+          <div class="option">
+            <span class="o-cond">Mejor yield + liquidez</span>
+            <span class="o-pick">Moonwell Flagship ETH</span>
+            <span class="o-meta">1.78% · $8.2M · V1 maduro</span>
+          </div>
+          <div class="option">
+            <span class="o-cond">Curador tier-1 + 0% fees</span>
+            <span class="o-pick">Gauntlet WETH Balanced V2</span>
+            <span class="o-meta">1.63% · 0%+0% · TVL chico</span>
+          </div>
+          <div class="option warn">
+            <span class="o-cond">Tengo msETH</span>
+            <span class="o-pick">Metronome msETH</span>
+            <span class="o-meta">2.08% · riesgo synth</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="matriz">
+    <div class="s-head"><h2>4. Matriz resumen</h2><span class="note">los 6 vaults analizados</span></div>
+    <div class="card-wrap"><div class="scroll"><table>
+      <thead><tr><th>Vault</th><th>Categoría</th><th class="num">TVL</th><th class="num">Net APY</th><th class="num">Fee</th><th>Curador</th><th>Riesgo distintivo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Steakhouse Prime USDC</strong></td><td>Stable</td><td class="num">$453M</td><td class="num acc">4.25%</td><td class="num">0%</td><td>Steakhouse</td><td>cbBTC 95% (custodia CEX)</td></tr>
+        <tr><td><strong>Gauntlet USDC Prime</strong></td><td>Stable</td><td class="num">$329M</td><td class="num acc">4.25%</td><td class="num">0%</td><td>Gauntlet</td><td>cbBTC 93% (custodia CEX)</td></tr>
+        <tr><td><strong>Pangolins USDC</strong></td><td>Stable</td><td class="num">$32.7M</td><td class="num acc">4.25%</td><td class="num">0%</td><td>Pangolins (nuevo)</td><td class="bad">mono-mercado, admin sin verificar</td></tr>
+        <tr><td><strong>Moonwell Flagship ETH</strong></td><td>ETH</td><td class="num">$8.2M</td><td class="num acc">1.78%</td><td class="num">15%</td><td>Block Analitica</td><td>de-peg LST, TVL en caída</td></tr>
+        <tr><td><strong>Metronome msETH</strong></td><td>ETH</td><td class="num">$6.2M</td><td class="num acc">2.08%</td><td class="num">5%</td><td>Gauntlet</td><td class="warn">peg del synth msETH</td></tr>
+        <tr><td><strong>Gauntlet WETH Balanced</strong></td><td>ETH</td><td class="num">$2.52M</td><td class="num acc">1.63%</td><td class="num">0%</td><td>Gauntlet</td><td>V2 nuevo, TVL/idle chicos</td></tr>
+      </tbody>
+    </table></div></div>
+  </section>
+
+  <section id="dd">
+    <div class="s-head"><h2>5. Pendientes de due diligence</h2></div>
+    <div class="todo-card">
+      <ul class="checklist">
+        <li>Verificar si owner/guardian de <strong>Pangolins</strong> son multisig o EOA (define el riesgo de gobernanza real).</li>
+        <li>Confirmar el mercado Blue exacto al que rutea el adapter de <strong>Gauntlet WETH Balanced</strong> (colateral, LLTV, oracle).</li>
+        <li>Re-chequear utilización y liquidez retirable antes de cualquier ticket grande (los vaults ETH tienen idle bajo).</li>
+        <li>Monitorear la tendencia de TVL de <strong>Moonwell Flagship ETH</strong> (riesgo de deprecación si sigue cayendo).</li>
+      </ul>
+    </div>
+  </section>
+</div></body></html>
