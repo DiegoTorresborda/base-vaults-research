@@ -28,6 +28,7 @@ h1{font-size:32px;font-weight:600;letter-spacing:-.03em;margin:10px 0 10px;line-
 .chain-h .stats b{color:var(--fg);font-weight:600}
 .chain-section.base .chain-h h2::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue);margin-right:9px;vertical-align:middle}
 .chain-section.arb .chain-h h2::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:9px;vertical-align:middle}
+.chain-section.eth .chain-h h2::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#a5b4fc;margin-right:9px;vertical-align:middle}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 a.card{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:20px;text-decoration:none;color:inherit;transition:.15s}
 a.card:hover{border-color:var(--accent);background:#15211c}
@@ -53,11 +54,15 @@ a.card:hover h3 .arr{color:var(--accent);transform:translate(2px,-2px)}
   <span class="lbl">Arbitrum</span>
   <a href="arbitrum_vaults_report.html">Dashboard</a>
   <a href="arbitrum_oportunidades.html">Guía</a>
+  <span class="sep">●</span>
+  <span class="lbl">Ethereum</span>
+  <a href="ethereum_vaults_report.html">Dashboard</a>
+  <a href="ethereum_oportunidades.html">Guía</a>
 </div>
 <div class="wrap">
   <div class="eyebrow">Vault Market Research</div>
   <h1>Oportunidades de inversión DeFi · Censo verificado</h1>
-  <p class="lede">Censo de vaults de rendimiento en dos ecosistemas — Base y Arbitrum — con direcciones de contrato confirmadas on-chain, perfil de riesgo por vault (Bajo/Medio/Alto), APYs y links a la app de cada protocolo. Datos al snapshot indicado en cada cadena.</p>
+  <p class="lede">Censo de vaults de rendimiento en tres ecosistemas — Base, Arbitrum y Ethereum L1 — con direcciones de contrato confirmadas on-chain, perfil de riesgo por vault (Bajo/Medio/Alto), APYs y links a la app de cada protocolo. Datos al snapshot indicado en cada cadena.</p>
 
   <div class="chain-section curate">
     <div class="chain-h">
@@ -129,11 +134,34 @@ a.card:hover h3 .arr{color:var(--accent);transform:translate(2px,-2px)}
     </div>
   </div>
 
+  <div class="chain-section eth">
+    <div class="chain-h">
+      <h2>Ethereum L1</h2><span class="chip">Ethereum Mainnet · chainId 1</span>
+      <span class="stats"><b>141</b> vaults · <b>71</b> protocolos · <b>$68.2B</b> TVL · piso $25M</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="ethereum_vaults_report.html">
+        <span class="k">Dashboard de datos</span>
+        <h3>Ethereum L1 Vault Market Report <span class="arr">↗</span></h3>
+        <p>Tabla interactiva de los 141 vaults sobre el piso de $25M. El mayor mercado por capital (~30× Base): coloso de ETH liquid-(re)staking + stablecoins, dominado por Lido stETH ($15.6B), Aave v3, Sky sUSDS, Maple y Morpho curado. Links a la app y a Etherscan.</p>
+        <span class="meta">interactivo · ordenable · filtrable</span>
+      </a>
+      <a class="card" href="ethereum_oportunidades.html">
+        <span class="k">Guía conceptual</span>
+        <h3>Oportunidades en Ethereum <span class="arr">↗</span></h3>
+        <p>Misma estructura que las guías de Base y Arbitrum, adaptada al universo L1: liquid (re)staking, lending de stablecoins, vaults curados de Morpho, savings (sUSDS), crédito institucional (Maple), RWA tokenizado (BUIDL/OUSG/USTB) y basis-trade (Ethena sUSDe).</p>
+        <span class="meta">conceptual · en español</span>
+      </a>
+    </div>
+  </div>
+
   <div class="foot">
     <span>Descargas:</span>
     <a href="base_vaults.csv" download>base_vaults.csv</a>
     <span class="sep">·</span>
     <a href="arbitrum_vaults.csv" download>arbitrum_vaults.csv</a>
+    <span class="sep">·</span>
+    <a href="ethereum_vaults.csv" download>ethereum_vaults.csv</a>
     <span class="sep">·</span>
     <a href="https://github.com/protofire/wadz-architecture" target="_blank" rel="noopener">repo de arquitectura (privado)</a>
   </div>
