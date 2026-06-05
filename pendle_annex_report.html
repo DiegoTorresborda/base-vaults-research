@@ -1,0 +1,454 @@
+<!DOCTYPE html>\n<html lang="en"><head>\n<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Pendle Fixed-Yield Annex</title>\n<style>
+:root{
+  --bg:#0b0b0d; --card:#1414171a; --card-solid:#141417; --muted:#1c1c20; --muted2:#232329;
+  --border:#2a2a31; --border-soft:#22222820; --fg:#ededf0; --fg2:#9a9aa4; --fg3:#6a6a74;
+  --accent:#34d399; --accent-dim:#34d39922; --accent-strong:#10b981;
+  --amber:#f0b429; --rose:#fb7185; --r:8px; --rs:6px;
+  --mono:"SF Mono","JetBrains Mono","Geist Mono",ui-monospace,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.muted{color:var(--fg2)}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+
+/* header */
+header.top{position:sticky;top:0;z-index:50;background:rgba(11,11,13,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.top-inner{max-width:1180px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--accent-strong),var(--accent));display:flex;align-items:center;justify-content:center;color:#06281d;font-weight:700;font-size:13px}
+.brand h1{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.brand .sub{font-size:11px;color:var(--fg3);font-family:var(--mono)}
+nav.secnav{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
+nav.secnav a{color:var(--fg2);font-size:12.5px;font-weight:500;padding:5px 10px;border-radius:var(--rs)}
+nav.secnav a:hover{color:var(--fg);background:var(--muted);text-decoration:none}
+
+main{max-width:1180px;margin:0 auto;padding:0 28px 80px}
+section{padding-top:40px;scroll-margin-top:70px}
+.s-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.s-head h2{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.s-head .s-note{font-size:12px;color:var(--fg3)}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--accent)}
+
+/* hero */
+.hero{padding:40px 0 8px}
+.hero h2.title{font-size:30px;font-weight:600;letter-spacing:-.03em;margin:8px 0 6px;line-height:1.15}
+.hero p.lede{color:var(--fg2);max-width:680px;font-size:14.5px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.kpi{background:var(--card-solid);border:1px solid var(--border);border-radius:var(--r);padding:16px 16px 14px}
+.kpi .label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--fg2)}
+.kpi .val{font-size:26px;font-weight:600;font-family:var(--mono);font-variant-numeric:tabular-nums;margin-top:7px;letter-spacing:-.02em}
+.kpi .meta{font-size:11.5px;color:var(--fg3);margin-top:3px}
+.kpi .val.acc{color:var(--accent)}
+
+/* cards / grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--card-solid);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.card .card-h{padding:13px 16px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.card .card-h .hint{font-size:11px;color:var(--fg3);font-weight:400}
+
+/* tables */
+table{width:100%;border-collapse:collapse}
+thead th{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg2);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--card-solid);position:sticky;top:0}
+thead th.num{text-align:right}
+tbody td{padding:10px 14px;border-bottom:1px solid var(--border-soft);font-size:13px}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--muted)}
+.bar{height:3px;background:var(--muted2);border-radius:3px;margin-top:6px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--accent);opacity:.8;border-radius:3px}
+
+/* tags */
+.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:2px 8px;border-radius:999px;background:var(--muted2);color:var(--fg);border:1px solid var(--border)}
+.tag.sm{font-size:10.5px;padding:1px 7px}
+.tag.ac-stable{color:var(--accent)} .tag.ac-eth{color:#a5b4fc} .tag.ac-btc{color:var(--amber)}
+.tag.ac-alt{color:var(--rose)} .tag.ac-lp_token{color:#7dd3fc}
+
+/* risk tier badges */
+.tier{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid}
+.tier::before{content:"";width:6px;height:6px;border-radius:50%}
+.tier-Bajo{color:var(--accent);border-color:#16433288;background:#10b9811a} .tier-Bajo::before{background:var(--accent)}
+.tier-Medio{color:var(--amber);border-color:#4a380f88;background:#f0b4291a} .tier-Medio::before{background:var(--amber)}
+.tier-Alto{color:var(--rose);border-color:#4a1d2488;background:#fb71851f} .tier-Alto::before{background:var(--rose)}
+
+/* protocol tier badge (size of the protocol across both chains) */
+.ptier{display:inline-flex;align-items:center;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:5px;border:1px solid;font-family:var(--mono);letter-spacing:.02em}
+.ptier-T1{color:#6aa8ff;border-color:#1f3a6688;background:#6aa8ff14}
+.ptier-T2{color:#c0c0d0;border-color:#3a3a44;background:#9a9aa414}
+.ptier-T3{color:var(--fg3);border-color:var(--border);background:transparent}
+
+/* tier distribution strip */
+.tierstrip{margin-top:18px;background:var(--card-solid);border:1px solid var(--border);border-radius:var(--r);padding:15px 18px}
+.tierstrip .sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px}
+.tierstrip .sh .t{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--fg2)}
+.tierstrip .sh .h{font-size:11px;color:var(--fg3)}
+.segbar{display:flex;height:9px;border-radius:5px;overflow:hidden;gap:2px;background:transparent}
+.seg{display:block;height:100%;border-radius:2px}
+.seg-Bajo{background:var(--accent)} .seg-Medio{background:var(--amber)} .seg-Alto{background:var(--rose)}
+.tlegend{display:flex;gap:24px;margin-top:12px;flex-wrap:wrap}
+.tlg{display:flex;align-items:center;gap:7px}
+.dot{width:8px;height:8px;border-radius:50%}
+.dot-Bajo{background:var(--accent)} .dot-Medio{background:var(--amber)} .dot-Alto{background:var(--rose)}
+.tlg-t{font-size:12.5px;font-weight:500} .tlg-n{font-size:11.5px;color:var(--fg3);font-family:var(--mono)}
+
+/* top10 */
+.rank{font-family:var(--mono);color:var(--fg3);width:28px;font-size:13px}
+.vname{font-weight:500}
+a.vlink{color:var(--fg);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+a.vlink:hover{color:var(--accent);text-decoration:none}
+a.vlink::after{content:"↗";font-size:9px;color:var(--fg3);opacity:0;transition:.12s}
+a.vlink:hover::after{opacity:1;color:var(--accent)}
+.vsub{font-size:11.5px;color:var(--fg3);margin-top:2px;display:flex;align-items:center;gap:6px}
+.apy{color:var(--accent)}
+.radj{font-weight:600}
+
+/* exec summary */
+.prose{color:var(--fg2);max-width:760px}
+.prose p{margin-bottom:12px}
+.prose strong{color:var(--fg);font-weight:600}
+ul.bullets{list-style:none;display:grid;gap:10px;margin-top:6px}
+ul.bullets li{position:relative;padding-left:20px;color:var(--fg2)}
+ul.bullets li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;border-radius:2px;background:var(--accent)}
+ul.bullets li strong{color:var(--fg)}
+
+/* flags grid */
+.flaggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.flagstat{display:flex;justify-content:space-between;align-items:center;background:var(--card-solid);border:1px solid var(--border);border-radius:var(--rs);padding:9px 12px}
+.flagname{font-size:12.5px;color:var(--fg2)}
+.flagcount{font-family:var(--mono);font-weight:600;font-size:14px}
+
+/* table toolbar */
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.search{flex:1;min-width:200px;background:var(--card-solid);border:1px solid var(--border);border-radius:var(--rs);padding:8px 12px;color:var(--fg);font-size:13px;font-family:var(--sans)}
+.search:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:11.5px;font-weight:500;padding:5px 10px;border-radius:999px;background:var(--card-solid);border:1px solid var(--border);color:var(--fg2);cursor:pointer;transition:.12s}
+.chip:hover{color:var(--fg);border-color:var(--fg3)}
+.chip.on{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.chiplabel{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg3);align-self:center;margin-right:2px}
+
+/* main vault table */
+.vt-wrap{border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.vt-scroll{overflow-x:auto;max-height:none}
+table.vt thead th{cursor:pointer;user-select:none;white-space:nowrap}
+table.vt thead th:hover{color:var(--fg)}
+table.vt thead th .arr{opacity:.4;font-size:9px;margin-left:3px}
+table.vt thead th.sorted .arr{opacity:1;color:var(--accent)}
+.fcount{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;border-radius:5px;background:var(--muted2);font-family:var(--mono);font-size:11px;color:var(--fg2);cursor:default;border:1px solid var(--border)}
+.fcount.hi{color:var(--amber);border-color:#3a2f12}
+.addr{font-family:var(--mono);font-size:11.5px;color:var(--fg2)}
+.naval{color:var(--fg3)}
+.count-line{font-size:12px;color:var(--fg3);margin-top:10px;font-family:var(--mono)}
+
+/* review controls */
+.rev-cell{min-width:174px}
+select.rev-select{width:100%;background:var(--card-solid);border:1px solid var(--border);border-radius:5px;color:var(--fg2);font-size:11.5px;padding:4px 6px;font-family:var(--sans);cursor:pointer}
+select.rev-select:focus{outline:none;border-color:var(--accent)}
+select.rev-select[data-st="Elegible"]{color:var(--accent);border-color:#16433288;background:#10b9811a}
+select.rev-select[data-st="Dudoso"]{color:var(--amber);border-color:#4a380f88;background:#f0b4291a}
+select.rev-select[data-st="No recomendable"]{color:var(--rose);border-color:#4a1d2488;background:#fb71851f}
+select.rev-select[data-st="Eliminar"]{color:var(--fg3);border-color:var(--border);background:var(--muted2)}
+input.rev-comment{width:100%;margin-top:4px;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--fg);font-size:11px;padding:3px 6px;font-family:var(--sans)}
+input.rev-comment:focus{outline:none;border-color:var(--accent)}
+tr.is-eliminar{opacity:.42}
+tr.is-eliminar a.vlink{text-decoration:line-through}
+.btn{height:30px;padding:0 11px;border-radius:6px;border:1px solid var(--border);background:var(--card-solid);color:var(--fg2);font-size:12px;font-weight:500;cursor:pointer;transition:.12s;font-family:var(--sans)}
+.btn:hover{color:var(--fg);border-color:var(--fg3)}
+.btn.primary{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.revbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:-2px 0 14px}
+.revcount{font-size:11.5px;color:var(--fg3);font-family:var(--mono);margin-left:auto}
+.revcount b{color:var(--fg2);font-weight:600}
+
+/* methodology / risk */
+.method{background:var(--card-solid);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px}
+.method h3{font-size:13px;font-weight:600;margin:18px 0 7px;color:var(--fg)}
+.method h3:first-child{margin-top:0}
+.method p,.method li{color:var(--fg2);font-size:13px}
+.method ul{padding-left:18px;display:grid;gap:5px;margin-top:4px}
+.method code{font-family:var(--mono);font-size:12px;background:var(--muted2);padding:1px 6px;border-radius:4px;color:var(--fg)}
+.risk-list{counter-reset:r;display:grid;gap:14px;max-width:820px}
+.risk-item{display:flex;gap:13px}
+.risk-item .n{flex:none;width:24px;height:24px;border-radius:6px;background:var(--muted2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:600}
+.risk-item .b{color:var(--fg2);font-size:13px}
+.risk-item .b strong{color:var(--fg)}
+
+footer{max-width:1180px;margin:0 auto;padding:30px 28px;border-top:1px solid var(--border);color:var(--fg3);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.callout{background:linear-gradient(180deg,var(--accent-dim),transparent);border:1px solid var(--accent);border-left-width:3px;border-radius:var(--rs);padding:12px 16px;color:var(--fg2);font-size:13px;margin-top:14px}
+.callout strong{color:var(--fg)}
+@media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}nav.secnav{display:none}}
+</style>\n</head>\n<body>\n<header class="top"><div class="top-inner">
+  <div class="brand"><div class="logo">P</div>
+    <div><h1>Pendle Fixed-Yield Annex</h1><div class="sub">snapshot 2026-06-05 · Ethereum · Arbitrum · Base · Pendle API + on-chain</div></div></div>
+  <nav class="secnav">
+    <a href="#summary">Summary</a><a href="#exec">Exec</a><a href="#market">Market Map</a>
+    <a href="#top12">Top 12</a><a href="#markets">All Markets</a><a href="#risk">Risk</a><a href="#method">Methodology</a>
+  </nav>
+</div></header>\n<main>\n  <section class="hero" id="summary">
+    <div class="eyebrow">Fixed Yield · Pendle</div>
+    <h2 class="title">Pendle markets · las 3 redes (100%)</h2>
+    <p class="lede">Every active Pendle market on Ethereum, Arbitrum and Base — PT/LP/YT fixed-rate and yield-trading instruments, catalogued as a distinct <code style="font-family:var(--mono);font-size:12.5px;color:var(--fg2)">fixed_yield</code> asset class excluded from the deposit-and-earn vault censuses. Sourced from Pendle's official API and verified on-chain.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="label">Markets covered</div><div class="val">96</div><div class="meta">active markets, no TVL floor</div></div>
+      <div class="kpi"><div class="label">Chains</div><div class="val">3</div><div class="meta">Ethereum · Arbitrum · Base</div></div>
+      <div class="kpi"><div class="label">Net liquidity</div><div class="val acc">$243.5M</div><div class="meta">Pendle API; DeFiLlama gross $483.5M double-counts PT+LP</div></div>
+      <div class="kpi"><div class="label">Median PT fixed APY</div><div class="val">~7.8%</div><div class="meta">stablecoin-dominated, 91% of liquidity</div></div>
+    </div>\n    <div class="tierstrip">
+      <div class="sh"><span class="t">Perfil de riesgo · distribución por market</span><span class="h">Medio / Alto · rúbrica transparente (ver Metodología) · sin Bajo</span></div>
+      <div class="segbar"><span class="seg seg-Bajo" style="width:0%" title="Bajo: 0 markets"></span><span class="seg seg-Medio" style="width:40.6%" title="Medio: 39 markets"></span><span class="seg seg-Alto" style="width:59.4%" title="Alto: 57 markets"></span></div>
+      <div class="tlegend"><div class="tlg"><span class="dot dot-Medio"></span><span class="tlg-t">Medio</span><span class="tlg-n">39 · $209.0M · 40.6%</span></div><div class="tlg"><span class="dot dot-Alto"></span><span class="tlg-t">Alto</span><span class="tlg-n">57 · $34.5M · 59.4%</span></div></div>
+    </div>
+  </section>\n  <section id="exec">
+    <div class="s-head"><h2>Executive Summary</h2></div>
+    <ul class="bullets">
+      <li><strong>A Pendle "market" ≠ a vault — it's a yield-splitting venue.</strong> Each market splits a yield-bearing asset (e.g. sUSDe, wstETH) into a <strong>PT</strong> (Principal Token — buy at a discount, redeem at face at maturity → a <em>fixed</em> yield), a <strong>YT</strong> (Yield Token), plus an <strong>LP</strong> position earning swap fees + PEND incentives. The same underlying can have several markets, one per maturity.</li>
+      <li><strong>Overwhelmingly a stablecoin / synthetic-dollar product.</strong> 72 of 96 markets ($220.6M, <strong>91% of liquidity</strong>) are stablecoin-denominated (USDe, sUSDe, USDat, apyUSD, USD0, reUSDe…). ETH derivatives are 16 markets ($15.0M); BTC just 3 ($4.0M).</li>
+      <li><strong>Ethereum is the home chain.</strong> Ethereum holds 80 markets ($176.6M, <strong>73%</strong>); Arbitrum 10 ($61.3M); Base only 6 ($5.6M). Median PT fixed yield: ETH 7.75%, Arbitrum 7.02%, Base 9.86%.</li>
+      <li><strong>Fixed yields run 5–24%, well above the vault census.</strong> PT implied APY clusters 5–10% on liquid stable markets and reaches 12–24% on smaller synthetic dollars (apyUSD 24.2%, apxUSD 18.2%, reUSDe 16.6%) — materially higher than 3–6% blue-chip stable vault yields, as compensation for Pendle, maturity/liquidity, and underlying risk.</li>
+      <li><strong>Thin, short-dated liquidity → no Bajo tier.</strong> 57 of 96 markets are sub-$1M and every position carries a maturity date — PT redeems at face only at expiry. This drives the risk profile: no <code style="font-family:var(--mono);font-size:12px;color:var(--fg2)">Bajo</code>-tier markets (Medio 39 / $209.0M · Alto 57 / $34.5M).</li>
+    </ul>
+  </section>\n  <section id="market">
+    <div class="s-head"><h2>Market Map</h2><span class="s-note">PT median = median PT implied / fixed APY</span></div>
+    <div class="grid2">
+      <div class="card"><div class="card-h">By chain <span class="hint">96 markets</span></div>
+        <table><thead><tr><th>Chain</th><th class="num">Markets</th><th class="num">Net liquidity</th><th class="num">PT median APY</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag">Ethereum</span></td><td class="num">80</td><td class="num">$176.6M<div class="bar"><span style="width:100.0%"></span></div></td><td class="num">7.75%</td></tr>
+          <tr><td><span class="tag">Arbitrum</span></td><td class="num">10</td><td class="num">$61.3M<div class="bar"><span style="width:34.7%"></span></div></td><td class="num">7.02%</td></tr>
+          <tr><td><span class="tag">Base</span></td><td class="num">6</td><td class="num">$5.6M<div class="bar"><span style="width:3.2%"></span></div></td><td class="num">9.86%</td></tr>
+          <tr><td><span class="muted">Total</span></td><td class="num">96</td><td class="num">$243.5M</td><td class="num muted">—</td></tr>
+        </tbody></table></div>
+      <div class="card"><div class="card-h">By underlying asset class <span class="hint">net liquidity</span></div>
+        <table><thead><tr><th>Asset class</th><th class="num">Markets</th><th class="num">Net liquidity</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag ac-stable">Stablecoin</span></td><td class="num">72</td><td class="num">$220.6M<div class="bar"><span style="width:100.0%"></span></div></td></tr>
+          <tr><td><span class="tag ac-eth">ETH</span></td><td class="num">16</td><td class="num">$15.0M<div class="bar"><span style="width:6.8%"></span></div></td></tr>
+          <tr><td><span class="tag ac-btc">BTC</span></td><td class="num">3</td><td class="num">$4.0M<div class="bar"><span style="width:1.8%"></span></div></td></tr>
+          <tr><td><span class="tag ac-alt">Alt</span></td><td class="num">5</td><td class="num">$3.9M<div class="bar"><span style="width:1.8%"></span></div></td></tr>
+        </tbody></table></div>
+    </div>
+    <div class="callout"><strong>Reading the map.</strong> Pendle on these chains is a <strong>fixed-rate stablecoin desk</strong>: 91% of liquidity sits in synthetic-dollar and stablecoin markets (Ethena's USDe/sUSDe family, USDat/sUSDat, apyUSD, USD0, reUSDe). It is the venue where DeFi users <strong>lock in a fixed rate</strong> on assets that otherwise pay a floating yield — the mirror image of the floating-rate lending/savings vaults in the main census. The ETH/BTC side is comparatively tiny here.</div>
+  </section>\n  <section id="top12">
+    <div class="s-head"><h2>Top 12 Fixed-Yield (PT) Opportunities</h2><span class="s-note">ranked by PT implied APY · markets ≥ $1M liquidity</span></div>
+    <div class="card">
+      <table><thead><tr><th>#</th><th>Market (underlying)</th><th>Chain</th><th class="num">Maturity</th><th class="num">PT fixed APY</th><th class="num">LP APY</th><th class="num">Liquidity</th></tr></thead>
+      <tbody>
+      <tr>
+      <td class="rank">1</td>
+      <td><span class="vname">apyUSD</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-06-18</td>
+      <td class="num apy radj">24.19%</td>
+      <td class="num">25.06%</td>
+      <td class="num">$9.9M</td></tr>
+      <tr>
+      <td class="rank">2</td>
+      <td><span class="vname">jrRoyAPYUSD</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-11-05</td>
+      <td class="num apy radj">19.16%</td>
+      <td class="num">14.96%</td>
+      <td class="num">$1.1M</td></tr>
+      <tr>
+      <td class="rank">3</td>
+      <td><span class="vname">apxUSD</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-06-18</td>
+      <td class="num apy radj">18.18%</td>
+      <td class="num">15.96%</td>
+      <td class="num">$8.1M</td></tr>
+      <tr>
+      <td class="rank">4</td>
+      <td><span class="vname">apxUSD</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-11-05</td>
+      <td class="num apy radj">17.75%</td>
+      <td class="num">107.84%</td>
+      <td class="num">$1.4M</td></tr>
+      <tr>
+      <td class="rank">5</td>
+      <td><span class="vname">apyUSD</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-08-27</td>
+      <td class="num apy radj">17.60%</td>
+      <td class="num">38.39%</td>
+      <td class="num">$1.0M</td></tr>
+      <tr>
+      <td class="rank">6</td>
+      <td><span class="vname">reUSDe</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-06-25</td>
+      <td class="num apy radj">16.59%</td>
+      <td class="num">14.99%</td>
+      <td class="num">$5.1M</td></tr>
+      <tr>
+      <td class="rank">7</td>
+      <td><span class="vname">apyUSD</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-11-05</td>
+      <td class="num apy radj">16.54%</td>
+      <td class="num">21.11%</td>
+      <td class="num">$2.7M</td></tr>
+      <tr>
+      <td class="rank">8</td>
+      <td><span class="vname">apxUSD</span><div class="vsub">Base · synthetic-dollar / stable PT</div></td>
+      <td>Base</td>
+      <td class="num muted">2026-06-18</td>
+      <td class="num apy radj">13.79%</td>
+      <td class="num">6.66%</td>
+      <td class="num">$3.3M</td></tr>
+      <tr>
+      <td class="rank">9</td>
+      <td><span class="vname">sUSDat</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-08-27</td>
+      <td class="num apy radj">13.51%</td>
+      <td class="num">6.62%</td>
+      <td class="num">$5.0M</td></tr>
+      <tr>
+      <td class="rank">10</td>
+      <td><span class="vname">sENA</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-09-24</td>
+      <td class="num apy radj">13.30%</td>
+      <td class="num">5.18%</td>
+      <td class="num">$2.7M</td></tr>
+      <tr>
+      <td class="rank">11</td>
+      <td><span class="vname">msY</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-07-30</td>
+      <td class="num apy radj">12.35%</td>
+      <td class="num">12.41%</td>
+      <td class="num">$8.9M</td></tr>
+      <tr>
+      <td class="rank">12</td>
+      <td><span class="vname">srUSDat</span><div class="vsub">Ethereum · synthetic-dollar / stable PT</div></td>
+      <td>Ethereum</td>
+      <td class="num muted">2026-08-27</td>
+      <td class="num apy radj">11.71%</td>
+      <td class="num">13.13%</td>
+      <td class="num">$4.4M</td></tr>
+      </tbody></table>
+    </div>
+    <div class="callout"><strong>Caveat.</strong> These are headline fixed rates on <strong>small, short-dated, synthetic-dollar</strong> markets — apyUSD/apxUSD/reUSDe are higher-yield synthetic dollars whose fixed rate compensates for elevated underlying and protocol risk. The fixed APY is only <em>realized</em> if PT is <strong>held to maturity</strong> and the underlying does not default/depeg; exiting early means selling PT on a possibly-shallow AMM. The largest, most-liquid markets (e.g. sUSDe, USDat on Ethereum, $10–13M) sit at more modest 5–9% fixed.</div>
+  </section>\n  <section id="markets">
+    <div class="s-head"><h2>All Markets</h2><span class="s-note">sortable · filterable · 96 rows · market → Pendle app ↗ · sorted by liquidity</span></div>
+    <div class="toolbar">
+      <input class="search" id="search" placeholder="Search market, chain, or address…">
+      <div class="chips"><span class="chiplabel">Chain</span><button class="chip" data-f="chain" data-v="Ethereum">Ethereum</button><button class="chip" data-f="chain" data-v="Arbitrum">Arbitrum</button><button class="chip" data-f="chain" data-v="Base">Base</button></div>
+      <div class="chips"><span class="chiplabel">Asset</span><button class="chip" data-f="ac" data-v="stable">Stable</button><button class="chip" data-f="ac" data-v="eth">ETH</button><button class="chip" data-f="ac" data-v="btc">BTC</button><button class="chip" data-f="ac" data-v="alt">Alt</button></div>
+      <div class="chips"><span class="chiplabel">Riesgo</span><button class="chip" data-f="tier" data-v="Medio">Medio</button><button class="chip" data-f="tier" data-v="Alto">Alto</button></div>
+    </div>
+    <div class="vt-wrap"><div class="vt-scroll">
+      <table class="vt" id="vt"><thead><tr>
+        <th data-k="name">Market<span class="arr">▾</span></th>
+        <th data-k="chain">Chain<span class="arr">▾</span></th>
+        <th data-k="maturity">Maturity<span class="arr">▾</span></th>
+        <th data-k="ac">Asset<span class="arr">▾</span></th>
+        <th data-k="pt" class="num">PT fixed APY<span class="arr">▾</span></th>
+        <th data-k="lp" class="num">LP APY<span class="arr">▾</span></th>
+        <th data-k="reward" class="num">Pendle reward<span class="arr">▾</span></th>
+        <th data-k="tvl" class="num sorted">Liquidity<span class="arr">▾</span></th>
+        <th data-k="tier">Riesgo<span class="arr">▾</span></th>
+        <th data-k="nf" class="num">Flags<span class="arr">▾</span></th>
+        <th data-k="ptier">Tier<span class="arr">▾</span></th>
+        <th data-k="addr">Market addr<span class="arr">▾</span></th>
+      </tr></thead><tbody id="vtbody"></tbody></table>
+    </div></div>
+    <div class="count-line" id="countline"></div>
+  </section>\n  <section id="risk">
+    <div class="s-head"><h2>Risk Notes</h2><span class="s-note">per-construction flags · tier distribution</span></div>
+    <p class="prose">Every Pendle market carries, by construction: <code style="font-family:var(--mono);font-size:12px;background:var(--muted2);padding:1px 6px;border-radius:4px">centralized_dependency</code> (protocol-managed AMM + price oracle), <code style="font-family:var(--mono);font-size:12px;background:var(--muted2);padding:1px 6px;border-radius:4px">il_risk</code> (the LP side has impermanent loss vs holding PT/underlying), and — for the pegged-asset markets — <code style="font-family:var(--mono);font-size:12px;background:var(--muted2);padding:1px 6px;border-radius:4px">depeg_risk</code>. Pendle's core contracts are audited (ChainSecurity, Spearbit, Dedaub, Ackee — Tier 1), so no <code style="font-family:var(--mono);font-size:12px;background:var(--muted2);padding:1px 6px;border-radius:4px">smart_contract_unaudited</code> flag is applied at the protocol level.</p>
+    <div class="flaggrid" style="margin:16px 0 22px"><div class="flagstat"><span class="flagname">centralized dependency</span><span class="flagcount">96</span></div><div class="flagstat"><span class="flagname">il risk</span><span class="flagcount">96</span></div><div class="flagstat"><span class="flagname">depeg risk</span><span class="flagcount">75</span></div></div>
+    <p class="prose" style="margin-bottom:14px"><strong style="color:var(--fg)">Risk-tier distribution</strong> (same additive rubric as the vault reports): <span class="tier tier-Medio">Medio</span> 39 markets / $209.0M · <span class="tier tier-Alto">Alto</span> 57 markets / $34.5M · <strong style="color:var(--fg)">Bajo 0</strong>. The skew to Alto is driven by (a) the small size of most markets (57 of 96 are sub-$1M → +2 TVL penalty) and (b) the inherent il_risk + depeg_risk + centralized_dependency stack. Larger markets (≥$1M, stable) land in Medio.</p>
+    <div class="risk-list">
+      <div class="risk-item"><div class="n">1</div><div class="b"><strong>Maturity risk (every market).</strong> A PT is only redeemable at face value <strong>at its maturity date</strong>. Before maturity it trades on the AMM at a market price; the "fixed APY" assumes hold-to-maturity. Days-to-maturity is in the CSV (<code style="font-family:var(--mono);font-size:12px">days_to_maturity</code>).</div></div>
+      <div class="risk-item"><div class="n">2</div><div class="b"><strong>Liquidity risk.</strong> 57 markets are sub-$1M. Thin AMM depth means early exit can incur meaningful slippage, and very small markets may be hard to enter/exit at size.</div></div>
+      <div class="risk-item"><div class="n">3</div><div class="b"><strong>Underlying risk is inherited in full.</strong> A Pendle market is a wrapper over an underlying yield source (e.g. Ethena sUSDe, Falcon USDf, a synthetic dollar). All of that underlying's depeg/solvency/smart-contract risk passes through to the PT and LP holder. The high-APY markets (apyUSD, apxUSD, reUSDe) wrap higher-risk synthetic dollars — the yield is risk compensation.</div></div>
+      <div class="risk-item"><div class="n">4</div><div class="b"><strong>PT vs LP are different risk profiles.</strong> PT held to maturity ≈ a fixed-income instrument (no IL, defined payoff). LP earns variable fees + PEND incentives but bears IL and yield variability. The <code style="font-family:var(--mono);font-size:12px">il_risk</code> flag reflects the LP side; a buy-and-hold PT investor is not exposed to IL. Both share the underlying and protocol risk.</div></div>
+      <div class="risk-item"><div class="n">5</div><div class="b"><strong>Incentive dependence.</strong> Part of the LP return (<code style="font-family:var(--mono);font-size:12px">pendle_reward_apy</code>, <code style="font-family:var(--mono);font-size:12px">lp_max_boosted_apy</code>) is PEND-token incentives that can change; the PT fixed rate does not depend on incentives.</div></div>
+    </div>
+  </section>\n  <section id="method">
+    <div class="s-head"><h2>Methodology</h2><span class="s-note">Pendle API + on-chain verification</span></div>
+    <div class="method">
+      <h3>Objective</h3>
+      <p>Catalogue 100% of active Pendle markets on Ethereum, Arbitrum and Base — one row per market — with standardized fixed/variable yields, maturity, risk profile, and verified on-chain addresses.</p>
+      <h3>Data sources</h3>
+      <ul>
+        <li><strong>Market universe &amp; financials:</strong> Pendle official API <code>https://api-v2.pendle.finance/core/v1/{chainId}/markets/active</code> for chainId 1, 42161, 8453 (snapshot 2026-06-05). Fields used: market <code>address</code>, <code>pt</code>/<code>yt</code>/<code>sy</code> token addresses, <code>expiry</code>, <code>underlyingAsset</code>, <code>categoryIds</code>, and <code>details.{liquidity, impliedApy, aggregatedApy, pendleApy, maxBoostedApy, feeRate}</code>.</li>
+        <li><strong>Cross-reference:</strong> DeFiLlama yields feed (<code>project == "pendle"</code>) confirmed the same 96 markets appear as 192 pool rows (one PT + one LP per market); DeFiLlama's $483.5M is gross (double-counts PT and LP legs), so this annex reports Pendle's <strong>net liquidity ($243.5M)</strong> instead.</li>
+        <li><strong>Verification:</strong> every market <code>address</code> re-checked for non-empty bytecode on its chain's public RPC (<code>ethereum-rpc</code>, <code>arbitrum-one-rpc</code>, <code>base-rpc</code> publicnode). 96/96 passed.</li>
+      </ul>
+      <h3>Column definitions (<code>pendle_markets.csv</code>, 23 columns)</h3>
+      <p><code>chain</code> · <code>market_name</code> (underlying) · <code>category</code> (always <code>fixed_yield</code>) · <code>underlying_asset_class</code> · <code>maturity</code> / <code>days_to_maturity</code> · <code>tvl_usd</code> (Pendle market liquidity) · <code>pt_implied_apy</code> (the <strong>fixed</strong> yield for a PT buyer held to maturity) · <code>lp_apy</code> (aggregated LP APY) · <code>pendle_reward_apy</code> (PEND incentive component) · <code>lp_max_boosted_apy</code> · <code>fee_rate</code> · <code>risk_flags</code> · <code>risk_score</code> / <code>risk_tier</code> (same rubric as the vault reports) · <code>pendle_categories</code> · <code>is_prime</code> · <code>market_address</code> · <code>pt_address</code> · <code>sy_address</code> · <code>underlying_token</code> · <code>source_url</code> · <code>protocol_tier</code> (Tier 1).</p>
+      <h3>Relationship to the vault censuses</h3>
+      <p>These 96 markets are the same instruments excluded from the Base, Arbitrum and Ethereum vault reports under the "Pendle PT/LP — not deposit-and-earn vaults" exclusion rule. On Ethereum, the largest single Pendle pool (~$12.8M) does not even clear the $25M vault floor; on Arbitrum, 6 Pendle pools were explicitly excluded. This annex is the complete, floor-free accounting of that excluded set.</p>
+      <h3>Limitations</h3>
+      <p>Pendle APYs are point-in-time and especially sensitive to maturity proximity and AMM state. The fixed (PT) APY is only realized on hold-to-maturity with no underlying default. The risk tier is a transparent heuristic, not investment advice. This annex is informational only.</p>
+    </div>
+  </section>\n</main>\n<footer>
+  <span>Pendle annex · 96 markets · $243.5M · 3 chains · 2026-06-05</span>
+  <span>Informational only · not investment advice · data as of 2026-06-05</span>
+</footer>\n<script>
+const DATA=[{"name": "USDai", "chain": "Arbitrum", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 35265045.0, "pt": 7.59, "lp": 1.44, "reward": 0.06, "score": 4, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x8a8a557b90ec79496a18a1f9c9da8bbd7db86fd3", "src": "https://app.pendle.finance/trade/markets/0x8a8a557b90ec79496a18a1f9c9da8bbd7db86fd3/swap?view=pt&chain=arbitrum"}, {"name": "sUSDai", "chain": "Arbitrum", "ac": "stable", "maturity": "2026-10-15", "dtm": 132, "tvl": 12550067.0, "pt": 9.69, "lp": 8.15, "reward": 0.38, "score": 4, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xcbf629c8d396b1261f81f55175afa010e94787d8", "src": "https://app.pendle.finance/trade/markets/0xcbf629c8d396b1261f81f55175afa010e94787d8/swap?view=pt&chain=arbitrum"}, {"name": "USDat", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-27", "dtm": 83, "tvl": 12459345.0, "pt": 8.83, "lp": 5.35, "reward": 1.28, "score": 4, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x9afe7a057a09cf5da748d952078c9c99938b4329", "src": "https://app.pendle.finance/trade/markets/0x9afe7a057a09cf5da748d952078c9c99938b4329/swap?view=pt&chain=ethereum"}, {"name": "SIERRA", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-02", "dtm": 27, "tvl": 12023245.0, "pt": 9.98, "lp": 7.78, "reward": 0.18, "score": 4, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xa556b5327372ab8aaefda2b756eed0608afd6ca5", "src": "https://app.pendle.finance/trade/markets/0xa556b5327372ab8aaefda2b756eed0608afd6ca5/swap?view=pt&chain=ethereum"}, {"name": "srUSDe", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 11029267.0, "pt": 4.77, "lp": 3.78, "reward": 0.32, "score": 4, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xfc82267a9e065aaf407f64dadd49bfbdc9511fb1", "src": "https://app.pendle.finance/trade/markets/0xfc82267a9e065aaf407f64dadd49bfbdc9511fb1/swap?view=pt&chain=ethereum"}, {"name": "apyUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 9901395.0, "pt": 24.19, "lp": 25.06, "reward": 1.62, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x3c53fae231ad3c0408a8b6d33138bbff1caec330", "src": "https://app.pendle.finance/trade/markets/0x3c53fae231ad3c0408a8b6d33138bbff1caec330/swap?view=pt&chain=ethereum"}, {"name": "sUSDe", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-13", "dtm": 69, "tvl": 9466665.0, "pt": 4.41, "lp": 4.22, "reward": 0.25, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x177768caf9d0e036725a51d3f60d7e20f2d4d194", "src": "https://app.pendle.finance/trade/markets/0x177768caf9d0e036725a51d3f60d7e20f2d4d194/swap?view=pt&chain=ethereum"}, {"name": "msY", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-30", "dtm": 55, "tvl": 8925873.0, "pt": 12.35, "lp": 12.41, "reward": 0.24, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x2251b22b82b916142b133d91cd7ac4b5b3c36954", "src": "https://app.pendle.finance/trade/markets/0x2251b22b82b916142b133d91cd7ac4b5b3c36954/swap?view=pt&chain=ethereum"}, {"name": "sUSDS", "chain": "Ethereum", "ac": "stable", "maturity": "2026-11-26", "dtm": 174, "tvl": 8261649.0, "pt": 5.33, "lp": 11.33, "reward": 0.5, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x9c560ebaf78e596cbcc27411d633a74d628dd7dc", "src": "https://app.pendle.finance/trade/markets/0x9c560ebaf78e596cbcc27411d633a74d628dd7dc/swap?view=pt&chain=ethereum"}, {"name": "sUSDai", "chain": "Arbitrum", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 8220484.0, "pt": 10.19, "lp": 8.21, "reward": 0.25, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x299674f6da858f903d77486fba50bc9f2e0db24d", "src": "https://app.pendle.finance/trade/markets/0x299674f6da858f903d77486fba50bc9f2e0db24d/swap?view=pt&chain=arbitrum"}, {"name": "apxUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 8112027.0, "pt": 18.18, "lp": 15.96, "reward": 1.95, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x50dce085af29caba28f7308bea57c4043757b491", "src": "https://app.pendle.finance/trade/markets/0x50dce085af29caba28f7308bea57c4043757b491/swap?view=pt&chain=ethereum"}, {"name": "USDG", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-24", "dtm": 111, "tvl": 5549490.0, "pt": 4.94, "lp": 5.01, "reward": 1.14, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xf80b67a32df07960c731794769309e3d30e9717f", "src": "https://app.pendle.finance/trade/markets/0xf80b67a32df07960c731794769309e3d30e9717f/swap?view=pt&chain=ethereum"}, {"name": "sNUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-24", "dtm": 111, "tvl": 5237133.0, "pt": 5.3, "lp": 7.04, "reward": 1.5, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xb1edcea8f9be0b97a9c4065a16cfa3cd362c3bde", "src": "https://app.pendle.finance/trade/markets/0xb1edcea8f9be0b97a9c4065a16cfa3cd362c3bde/swap?view=pt&chain=ethereum"}, {"name": "reUSDe", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 5097633.0, "pt": 16.59, "lp": 14.99, "reward": 0.5, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x6cb9a013604a567a5834fadd411165b1ca616783", "src": "https://app.pendle.finance/trade/markets/0x6cb9a013604a567a5834fadd411165b1ca616783/swap?view=pt&chain=ethereum"}, {"name": "sUSDD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-27", "dtm": 83, "tvl": 5059340.0, "pt": 7.72, "lp": 8.36, "reward": 1.79, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x45252f9a932910abc436644f0b29f5531f0eb4cc", "src": "https://app.pendle.finance/trade/markets/0x45252f9a932910abc436644f0b29f5531f0eb4cc/swap?view=pt&chain=ethereum"}, {"name": "sUSDat", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-27", "dtm": 83, "tvl": 5002497.0, "pt": 13.51, "lp": 6.62, "reward": 0.99, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x91bc86899c8391b6caaf26535b9cd82efe49a189", "src": "https://app.pendle.finance/trade/markets/0x91bc86899c8391b6caaf26535b9cd82efe49a189/swap?view=pt&chain=ethereum"}, {"name": "srUSDat", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-27", "dtm": 83, "tvl": 4446739.0, "pt": 11.71, "lp": 13.13, "reward": 1.77, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x4237a8acbd0b5a2dec4aa83b1fd83f20162d02b8", "src": "https://app.pendle.finance/trade/markets/0x4237a8acbd0b5a2dec4aa83b1fd83f20162d02b8/swap?view=pt&chain=ethereum"}, {"name": "reUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 4274140.0, "pt": 11.13, "lp": 9.95, "reward": 1.84, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xf5929a1c332ceab7918a4593a43db2b9ac20095f", "src": "https://app.pendle.finance/trade/markets/0xf5929a1c332ceab7918a4593a43db2b9ac20095f/swap?view=pt&chain=ethereum"}, {"name": "stcUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-23", "dtm": 48, "tvl": 3339076.0, "pt": 6.01, "lp": 5.46, "reward": 0.15, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xac24a6f0068d9701eaea76ab0b418021017f8d59", "src": "https://app.pendle.finance/trade/markets/0xac24a6f0068d9701eaea76ab0b418021017f8d59/swap?view=pt&chain=ethereum"}, {"name": "apxUSD", "chain": "Base", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 3295673.0, "pt": 13.79, "lp": 6.66, "reward": 0.32, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x6ae9cf67d57e49c55f900933f5dcfc4b63461d6e", "src": "https://app.pendle.finance/trade/markets/0x6ae9cf67d57e49c55f900933f5dcfc4b63461d6e/swap?view=pt&chain=base"}, {"name": "USD (Midas mAPOLLO)", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-24", "dtm": 111, "tvl": 2833328.0, "pt": 7.15, "lp": 6.89, "reward": 0.0, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xa268168e73791e2a0ab48ded41ecf6dc923cd17f", "src": "https://app.pendle.finance/trade/markets/0xa268168e73791e2a0ab48ded41ecf6dc923cd17f/swap?view=pt&chain=ethereum"}, {"name": "savUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-06", "dtm": 62, "tvl": 2787879.0, "pt": 6.81, "lp": 8.06, "reward": 0.16, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x05b5a8bd55d17a7cc8133d8ccd285f83be01a062", "src": "https://app.pendle.finance/trade/markets/0x05b5a8bd55d17a7cc8133d8ccd285f83be01a062/swap?view=pt&chain=ethereum"}, {"name": "wstETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 2754160.0, "pt": 2.78, "lp": 2.61, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xcfd848b9f6fef552204014ac67901223ad6bf679", "src": "https://app.pendle.finance/trade/markets/0xcfd848b9f6fef552204014ac67901223ad6bf679/swap?view=pt&chain=ethereum"}, {"name": "sENA", "chain": "Ethereum", "ac": "alt", "maturity": "2026-09-24", "dtm": 111, "tvl": 2716085.0, "pt": 13.3, "lp": 5.18, "reward": 0.45, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "il_risk"], "ptier": "Tier 1", "market_address": "0xf1e067f8334a5a21da018a15e29cb78252190a1b", "src": "https://app.pendle.finance/trade/markets/0xf1e067f8334a5a21da018a15e29cb78252190a1b/swap?view=pt&chain=ethereum"}, {"name": "wstETH", "chain": "Ethereum", "ac": "eth", "maturity": "2027-12-30", "dtm": 573, "tvl": 2688713.0, "pt": 2.57, "lp": 2.49, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x34280882267ffa6383b363e278b027be083bbe3b", "src": "https://app.pendle.finance/trade/markets/0x34280882267ffa6383b363e278b027be083bbe3b/swap?view=pt&chain=ethereum"}, {"name": "apyUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-11-05", "dtm": 153, "tvl": 2672837.0, "pt": 16.54, "lp": 21.11, "reward": 5.99, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xc5f938a8ef5f3bf9e72f5aa094baf5e03f4727d3", "src": "https://app.pendle.finance/trade/markets/0xc5f938a8ef5f3bf9e72f5aa094baf5e03f4727d3/swap?view=pt&chain=ethereum"}, {"name": "mHyperBTC", "chain": "Ethereum", "ac": "btc", "maturity": "2026-09-24", "dtm": 111, "tvl": 2204703.0, "pt": 2.81, "lp": 0.64, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xeff6a9ff1f17adbe88c1a923fc197b00ef5f4ce2", "src": "https://app.pendle.finance/trade/markets/0xeff6a9ff1f17adbe88c1a923fc197b00ef5f4ce2/swap?view=pt&chain=ethereum"}, {"name": "jrUSDe", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 2178646.0, "pt": 8.07, "lp": 7.89, "reward": 0.0, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x36159b0539b019f1896800b40e52150471799668", "src": "https://app.pendle.finance/trade/markets/0x36159b0539b019f1896800b40e52150471799668/swap?view=pt&chain=ethereum"}, {"name": "sYUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-24", "dtm": 111, "tvl": 2112567.0, "pt": 4.72, "lp": 5.09, "reward": 0.0, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x440a67f76f569b67a993aeaff58d198705ec5fe4", "src": "https://app.pendle.finance/trade/markets/0x440a67f76f569b67a993aeaff58d198705ec5fe4/swap?view=pt&chain=ethereum"}, {"name": "superUSDC", "chain": "Ethereum", "ac": "stable", "maturity": "2026-11-26", "dtm": 174, "tvl": 1861480.0, "pt": 8.18, "lp": 12.63, "reward": 0.19, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x61703e1ea2887fffd4b5f777bafd6abd7122bcf9", "src": "https://app.pendle.finance/trade/markets/0x61703e1ea2887fffd4b5f777bafd6abd7122bcf9/swap?view=pt&chain=ethereum"}, {"name": "sUSN", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-30", "dtm": 55, "tvl": 1751752.0, "pt": 10.0, "lp": 9.23, "reward": 0.0, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x272de61d685e3be818a7ec9445746acbcb78f023", "src": "https://app.pendle.finance/trade/markets/0x272de61d685e3be818a7ec9445746acbcb78f023/swap?view=pt&chain=ethereum"}, {"name": "cUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-23", "dtm": 48, "tvl": 1709399.0, "pt": 6.08, "lp": 1.34, "reward": 0.3, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x9eaaeda23177b7168c55a3a0f937f67919733449", "src": "https://app.pendle.finance/trade/markets/0x9eaaeda23177b7168c55a3a0f937f67919733449/swap?view=pt&chain=ethereum"}, {"name": "rswETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 1702470.0, "pt": 3.5, "lp": 3.04, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xc5ecdafbede3c8436c9c09e60bffac3731a9b28e", "src": "https://app.pendle.finance/trade/markets/0xc5ecdafbede3c8436c9c09e60bffac3731a9b28e/swap?view=pt&chain=ethereum"}, {"name": "uniBTC", "chain": "Base", "ac": "btc", "maturity": "2026-06-25", "dtm": 20, "tvl": 1670499.0, "pt": 1.03, "lp": 0.2, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xb2ba97b3e4ecba5af1e098bf65f5d33c9e2a7525", "src": "https://app.pendle.finance/trade/markets/0xb2ba97b3e4ecba5af1e098bf65f5d33c9e2a7525/swap?view=pt&chain=base"}, {"name": "weETH", "chain": "Arbitrum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 1599758.0, "pt": 3.24, "lp": 2.72, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x46d62a8dede1bf2d0de04f2ed863245cbba5e538", "src": "https://app.pendle.finance/trade/markets/0x46d62a8dede1bf2d0de04f2ed863245cbba5e538/swap?view=pt&chain=arbitrum"}, {"name": "sUSDf", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 1522070.0, "pt": 6.38, "lp": 5.34, "reward": 0.0, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x42826337a249b3162d133f65d8f79b4a22e82f45", "src": "https://app.pendle.finance/trade/markets/0x42826337a249b3162d133f65d8f79b4a22e82f45/swap?view=pt&chain=ethereum"}, {"name": "tmvUSDC", "chain": "Ethereum", "ac": "stable", "maturity": "2026-10-29", "dtm": 146, "tvl": 1480803.0, "pt": 6.86, "lp": 7.12, "reward": 1.86, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x9dbb0d00f965e22f51434c0ea2c2e09dfbcffb62", "src": "https://app.pendle.finance/trade/markets/0x9dbb0d00f965e22f51434c0ea2c2e09dfbcffb62/swap?view=pt&chain=ethereum"}, {"name": "apxUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-11-05", "dtm": 153, "tvl": 1439340.0, "pt": 17.75, "lp": 107.84, "reward": 11.12, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xaf0349fb9b1ba07d34381870c59b560b31412660", "src": "https://app.pendle.finance/trade/markets/0xaf0349fb9b1ba07d34381870c59b560b31412660/swap?view=pt&chain=ethereum"}, {"name": "rETH", "chain": "Arbitrum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 1397728.0, "pt": 2.33, "lp": 2.03, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xd7eac6c9109d8c3977ebce4e7dbf0a5a9532e240", "src": "https://app.pendle.finance/trade/markets/0xd7eac6c9109d8c3977ebce4e7dbf0a5a9532e240/swap?view=pt&chain=arbitrum"}, {"name": "srNUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-17", "dtm": 104, "tvl": 1367125.0, "pt": 5.93, "lp": 5.45, "reward": 0.29, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xdb3b421176215ad746ecba51a10e1c522e02c261", "src": "https://app.pendle.finance/trade/markets/0xdb3b421176215ad746ecba51a10e1c522e02c261/swap?view=pt&chain=ethereum"}, {"name": "msUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-30", "dtm": 55, "tvl": 1316210.0, "pt": 8.07, "lp": 1.99, "reward": 0.0, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x284199ac6b6211ca4419f06b29ccf45db5ca951b", "src": "https://app.pendle.finance/trade/markets/0x284199ac6b6211ca4419f06b29ccf45db5ca951b/swap?view=pt&chain=ethereum"}, {"name": "nOPAL", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-17", "dtm": 104, "tvl": 1204267.0, "pt": 10.1, "lp": 31.75, "reward": 3.04, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x4af2e5411636b5bc460ebf44b83fd1f4e8c7b783", "src": "https://app.pendle.finance/trade/markets/0x4af2e5411636b5bc460ebf44b83fd1f4e8c7b783/swap?view=pt&chain=ethereum"}, {"name": "jrRoyAPYUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-11-05", "dtm": 153, "tvl": 1149776.0, "pt": 19.16, "lp": 14.96, "reward": 1.58, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x5949c3bfdf9babd759170a3a75c4fe52b03e6797", "src": "https://app.pendle.finance/trade/markets/0x5949c3bfdf9babd759170a3a75c4fe52b03e6797/swap?view=pt&chain=ethereum"}, {"name": "eEARN", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-02", "dtm": 27, "tvl": 1055181.0, "pt": 7.15, "lp": 7.02, "reward": 0.0, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x145a00b3e996aa1692d22f9e49499394e6cea981", "src": "https://app.pendle.finance/trade/markets/0x145a00b3e996aa1692d22f9e49499394e6cea981/swap?view=pt&chain=ethereum"}, {"name": "weETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 1048264.0, "pt": 3.04, "lp": 2.7, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x95a9504f246cd65bf91c2c550a53f7f415227ed1", "src": "https://app.pendle.finance/trade/markets/0x95a9504f246cd65bf91c2c550a53f7f415227ed1/swap?view=pt&chain=ethereum"}, {"name": "apyUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-27", "dtm": 83, "tvl": 1027094.0, "pt": 17.6, "lp": 38.39, "reward": 15.57, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x30bb9ee8dc6aab322dc3a0d36063cbf06a9e5952", "src": "https://app.pendle.finance/trade/markets/0x30bb9ee8dc6aab322dc3a0d36063cbf06a9e5952/swap?view=pt&chain=ethereum"}, {"name": "WOUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-12-17", "dtm": 195, "tvl": 1011129.0, "pt": 4.02, "lp": 42.75, "reward": 0.16, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x30ee7618e0ef0682f0f354d6f84be87de6b8878c", "src": "https://app.pendle.finance/trade/markets/0x30ee7618e0ef0682f0f354d6f84be87de6b8878c/swap?view=pt&chain=ethereum"}, {"name": "fxSAVE", "chain": "Ethereum", "ac": "stable", "maturity": "2026-10-29", "dtm": 146, "tvl": 1002080.0, "pt": 8.01, "lp": 10.75, "reward": 0.45, "score": 5, "tier": "Medio", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x8308e53f584a7e5f0c581059d9ba971c0bec9454", "src": "https://app.pendle.finance/trade/markets/0x8308e53f584a7e5f0c581059d9ba971c0bec9454/swap?view=pt&chain=ethereum"}, {"name": "USD3", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 993982.0, "pt": 5.94, "lp": 1.74, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x11aa6742bc3afd713e7fd3f0d3b1f7507cf2ad12", "src": "https://app.pendle.finance/trade/markets/0x11aa6742bc3afd713e7fd3f0d3b1f7507cf2ad12/swap?view=pt&chain=ethereum"}, {"name": "weETHs", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 977851.0, "pt": 4.77, "lp": 4.02, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xc7d566f5cd575fdad0e982bd238d9abcf29807ea", "src": "https://app.pendle.finance/trade/markets/0xc7d566f5cd575fdad0e982bd238d9abcf29807ea/swap?view=pt&chain=ethereum"}, {"name": "stUSDS", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 906524.0, "pt": 5.5, "lp": 6.0, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xd8fdddf9ea5a3b703f6ffdf8e4329d0d4083f1f5", "src": "https://app.pendle.finance/trade/markets/0xd8fdddf9ea5a3b703f6ffdf8e4329d0d4083f1f5/swap?view=pt&chain=ethereum"}, {"name": "ynRWAx", "chain": "Ethereum", "ac": "stable", "maturity": "2026-10-15", "dtm": 132, "tvl": 831310.0, "pt": 10.39, "lp": 12.03, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xfce3f966a131c46a51b896ceea3917bc4c302577", "src": "https://app.pendle.finance/trade/markets/0xfce3f966a131c46a51b896ceea3917bc4c302577/swap?view=pt&chain=ethereum"}, {"name": "USD (Midas mHYPER)", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-24", "dtm": 111, "tvl": 829188.0, "pt": 9.16, "lp": 6.67, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xdf014ab15b68e3b8db53e8d307d01b81cce98739", "src": "https://app.pendle.finance/trade/markets/0xdf014ab15b68e3b8db53e8d307d01b81cce98739/swap?view=pt&chain=ethereum"}, {"name": "jrUSDat", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-27", "dtm": 83, "tvl": 812301.0, "pt": 18.59, "lp": 15.79, "reward": 4.12, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x8cef2919a8cb98ad74e1e12392bc9f9fc4e3270a", "src": "https://app.pendle.finance/trade/markets/0x8cef2919a8cb98ad74e1e12392bc9f9fc4e3270a/swap?view=pt&chain=ethereum"}, {"name": "apxUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-27", "dtm": 83, "tvl": 779445.0, "pt": 14.22, "lp": 34.01, "reward": 15.9, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xc3e6cc9269dc780e0d55512c46cad1dd29cfbaa5", "src": "https://app.pendle.finance/trade/markets/0xc3e6cc9269dc780e0d55512c46cad1dd29cfbaa5/swap?view=pt&chain=ethereum"}, {"name": "thBILL", "chain": "Arbitrum", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 757323.0, "pt": 12.39, "lp": 7.75, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x22d95cec2b962c142fff9be88cfc7ef15043419f", "src": "https://app.pendle.finance/trade/markets/0x22d95cec2b962c142fff9be88cfc7ef15043419f/swap?view=pt&chain=arbitrum"}, {"name": "USDai", "chain": "Arbitrum", "ac": "stable", "maturity": "2026-10-15", "dtm": 132, "tvl": 728987.0, "pt": 7.13, "lp": 2.36, "reward": 1.05, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xa8a0dea40174cfc30fea9e3a77f182ab33f46e25", "src": "https://app.pendle.finance/trade/markets/0xa8a0dea40174cfc30fea9e3a77f182ab33f46e25/swap?view=pt&chain=arbitrum"}, {"name": "STRCx", "chain": "Ethereum", "ac": "alt", "maturity": "2026-08-27", "dtm": 83, "tvl": 660267.0, "pt": 13.03, "lp": 12.34, "reward": 6.34, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "il_risk"], "ptier": "Tier 1", "market_address": "0x84183d35960914bad14fa272372861664df329e2", "src": "https://app.pendle.finance/trade/markets/0x84183d35960914bad14fa272372861664df329e2/swap?view=pt&chain=ethereum"}, {"name": "pufETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 652161.0, "pt": 4.84, "lp": 1.47, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x02c1289dacb6d459fc784236e862bc504c991f81", "src": "https://app.pendle.finance/trade/markets/0x02c1289dacb6d459fc784236e862bc504c991f81/swap?view=pt&chain=ethereum"}, {"name": "jrNUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-17", "dtm": 104, "tvl": 626292.0, "pt": 8.02, "lp": 7.57, "reward": 0.24, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x0fad2688313ec6883420118b6fcc74c6a5c86419", "src": "https://app.pendle.finance/trade/markets/0x0fad2688313ec6883420118b6fcc74c6a5c86419/swap?view=pt&chain=ethereum"}, {"name": "superWETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-11-26", "dtm": 174, "tvl": 559949.0, "pt": 5.0, "lp": 8.07, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x384509537ce5daa5740baeb6d1ee0eb2847ea8a8", "src": "https://app.pendle.finance/trade/markets/0x384509537ce5daa5740baeb6d1ee0eb2847ea8a8/swap?view=pt&chain=ethereum"}, {"name": "loAZND", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-02", "dtm": 27, "tvl": 547586.0, "pt": 8.22, "lp": 7.85, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x58cfd9fe39bf91a1fd36497cbe74e997f4d5d7c7", "src": "https://app.pendle.finance/trade/markets/0x58cfd9fe39bf91a1fd36497cbe74e997f4d5d7c7/swap?view=pt&chain=ethereum"}, {"name": "USP", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 481016.0, "pt": 18.3, "lp": 15.57, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x6354b7dd06050da44a21d680436838a08e7dcec4", "src": "https://app.pendle.finance/trade/markets/0x6354b7dd06050da44a21d680436838a08e7dcec4/swap?view=pt&chain=ethereum"}, {"name": "siUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-11", "dtm": 6, "tvl": 468940.0, "pt": 16.62, "lp": 16.4, "reward": 0.97, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x4bc9b3bb7c494e8d90854dfb87dda47312856254", "src": "https://app.pendle.finance/trade/markets/0x4bc9b3bb7c494e8d90854dfb87dda47312856254/swap?view=pt&chain=ethereum"}, {"name": "swETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 388589.0, "pt": 3.33, "lp": 2.96, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x69295970dd33b135417c9b866d03c6f59f022f8b", "src": "https://app.pendle.finance/trade/markets/0x69295970dd33b135417c9b866d03c6f59f022f8b/swap?view=pt&chain=ethereum"}, {"name": "wstETH", "chain": "Arbitrum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 370933.0, "pt": 2.58, "lp": 2.49, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xf78452e0f5c0b95fc5dc8353b8cd1e06e53fa25b", "src": "https://app.pendle.finance/trade/markets/0xf78452e0f5c0b95fc5dc8353b8cd1e06e53fa25b/swap?view=pt&chain=arbitrum"}, {"name": "uniETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 343288.0, "pt": 7.07, "lp": 7.0, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xc9904994ef8d0614314d66800718d2a213502f9b", "src": "https://app.pendle.finance/trade/markets/0xc9904994ef8d0614314d66800718d2a213502f9b/swap?view=pt&chain=ethereum"}, {"name": "gUSDC", "chain": "Arbitrum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 342472.0, "pt": 6.58, "lp": 10.22, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x0934e592cee932b04b3967162b3cd6c85748c470", "src": "https://app.pendle.finance/trade/markets/0x0934e592cee932b04b3967162b3cd6c85748c470/swap?view=pt&chain=arbitrum"}, {"name": "asdCRV", "chain": "Ethereum", "ac": "alt", "maturity": "2026-06-25", "dtm": 20, "tvl": 303770.0, "pt": 26.91, "lp": 28.58, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "il_risk"], "ptier": "Tier 1", "market_address": "0x2ec28d05d86a1fc4de199726f7ddc8f83d23b5a5", "src": "https://app.pendle.finance/trade/markets/0x2ec28d05d86a1fc4de199726f7ddc8f83d23b5a5/swap?view=pt&chain=ethereum"}, {"name": "eTHIRD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-02", "dtm": 27, "tvl": 268490.0, "pt": 8.0, "lp": 4.17, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x12c325296da0fcf326e9677473d81377b5424024", "src": "https://app.pendle.finance/trade/markets/0x12c325296da0fcf326e9677473d81377b5424024/swap?view=pt&chain=ethereum"}, {"name": "srRoyAPYUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-11-05", "dtm": 153, "tvl": 263296.0, "pt": 12.25, "lp": 17.56, "reward": 4.67, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x0e201d27ded56cf4a0da8853d7604743de217435", "src": "https://app.pendle.finance/trade/markets/0x0e201d27ded56cf4a0da8853d7604743de217435/swap?view=pt&chain=ethereum"}, {"name": "wOETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 254359.0, "pt": 3.5, "lp": 2.67, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xc5d60f2f9a1de6329840288077a67620eabf7c89", "src": "https://app.pendle.finance/trade/markets/0xc5d60f2f9a1de6329840288077a67620eabf7c89/swap?view=pt&chain=ethereum"}, {"name": "apxUSD", "chain": "Base", "ac": "stable", "maturity": "2026-11-05", "dtm": 153, "tvl": 192292.0, "pt": 12.15, "lp": 12.77, "reward": 8.47, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xf5e6cf47ee975600786248cae0a80ab99daf0350", "src": "https://app.pendle.finance/trade/markets/0xf5e6cf47ee975600786248cae0a80ab99daf0350/swap?view=pt&chain=base"}, {"name": "sKAITO", "chain": "Base", "ac": "alt", "maturity": "2026-07-30", "dtm": 55, "tvl": 189468.0, "pt": 23.05, "lp": 17.98, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "il_risk"], "ptier": "Tier 1", "market_address": "0xb0eb82ba25ffa51641d8613d270ad79183171fac", "src": "https://app.pendle.finance/trade/markets/0xb0eb82ba25ffa51641d8613d270ad79183171fac/swap?view=pt&chain=base"}, {"name": "USDe", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-13", "dtm": 69, "tvl": 173055.0, "pt": 4.78, "lp": 2.14, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x43c97094da0e894d3af2fda6f507d59a29888251", "src": "https://app.pendle.finance/trade/markets/0x43c97094da0e894d3af2fda6f507d59a29888251/swap?view=pt&chain=ethereum"}, {"name": "USD3", "chain": "Ethereum", "ac": "stable", "maturity": "2026-12-17", "dtm": 195, "tvl": 167352.0, "pt": 7.96, "lp": 3.3, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x4a5067c3ff1abb7449244025b0e37feaf77d8e3e", "src": "https://app.pendle.finance/trade/markets/0x4a5067c3ff1abb7449244025b0e37feaf77d8e3e/swap?view=pt&chain=ethereum"}, {"name": "sAID", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-30", "dtm": 55, "tvl": 166392.0, "pt": 9.49, "lp": 8.56, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xd72c8c4af3fc310c86b294afd62b1608d49ee6ec", "src": "https://app.pendle.finance/trade/markets/0xd72c8c4af3fc310c86b294afd62b1608d49ee6ec/swap?view=pt&chain=ethereum"}, {"name": "USDf", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 148944.0, "pt": 2.2, "lp": 0.17, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x2693b8cb85940e550d55a408e406f7c4e6e34b62", "src": "https://app.pendle.finance/trade/markets/0x2693b8cb85940e550d55a408e406f7c4e6e34b62/swap?view=pt&chain=ethereum"}, {"name": "USD (Midas mROX)", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-30", "dtm": 55, "tvl": 140175.0, "pt": 5.83, "lp": 8.2, "reward": 1.09, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xb9891c75bccef3c55a4566efdb1cdc1e337087b6", "src": "https://app.pendle.finance/trade/markets/0xb9891c75bccef3c55a4566efdb1cdc1e337087b6/swap?view=pt&chain=ethereum"}, {"name": "yoUSD", "chain": "Base", "ac": "stable", "maturity": "2026-09-24", "dtm": 111, "tvl": 133988.0, "pt": 7.56, "lp": 3.29, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x250c15e59a7572195e248f668636723cca20a2b8", "src": "https://app.pendle.finance/trade/markets/0x250c15e59a7572195e248f668636723cca20a2b8/swap?view=pt&chain=base"}, {"name": "PRIME", "chain": "Ethereum", "ac": "stable", "maturity": "2026-08-27", "dtm": 83, "tvl": 124554.0, "pt": 7.22, "lp": 9.52, "reward": 3.25, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x649325d40afa8448a9161a6cd9da27dedc2a9115", "src": "https://app.pendle.finance/trade/markets/0x649325d40afa8448a9161a6cd9da27dedc2a9115/swap?view=pt&chain=ethereum"}, {"name": "sBOLD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 124089.0, "pt": 7.79, "lp": 4.51, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x926fac5b12544c2e7bfa8ce3dd83a4c8ed988da8", "src": "https://app.pendle.finance/trade/markets/0x926fac5b12544c2e7bfa8ce3dd83a4c8ed988da8/swap?view=pt&chain=ethereum"}, {"name": "jrmHYPER", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-02", "dtm": 27, "tvl": 115884.0, "pt": 10.85, "lp": 8.4, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xc653dec003b80593ff56dec9f94095da360a9aa7", "src": "https://app.pendle.finance/trade/markets/0xc653dec003b80593ff56dec9f94095da360a9aa7/swap?view=pt&chain=ethereum"}, {"name": "srmHYPER", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-02", "dtm": 27, "tvl": 109359.0, "pt": 6.31, "lp": 6.26, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x2d13ce96167f37bcc2be16171b9f6ab30d0a54ce", "src": "https://app.pendle.finance/trade/markets/0x2d13ce96167f37bcc2be16171b9f6ab30d0a54ce/swap?view=pt&chain=ethereum"}, {"name": "wsuperOETHb", "chain": "Base", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 92545.0, "pt": 3.27, "lp": 2.54, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x9621342d8fb87359abe8ab2270f402f202f87b67", "src": "https://app.pendle.finance/trade/markets/0x9621342d8fb87359abe8ab2270f402f202f87b67/swap?view=pt&chain=base"}, {"name": "uniETH", "chain": "Arbitrum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 87213.0, "pt": 6.91, "lp": 7.02, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x7b8aec3d1986b4becbf1c651ff6a953cc0117b05", "src": "https://app.pendle.finance/trade/markets/0x7b8aec3d1986b4becbf1c651ff6a953cc0117b05/swap?view=pt&chain=arbitrum"}, {"name": "uniBTC", "chain": "Ethereum", "ac": "btc", "maturity": "2026-06-25", "dtm": 20, "tvl": 86857.0, "pt": 1.27, "lp": 0.33, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xd625528a8c912fe0b4ed0a73541e2a5db44976cb", "src": "https://app.pendle.finance/trade/markets/0xd625528a8c912fe0b4ed0a73541e2a5db44976cb/swap?view=pt&chain=ethereum"}, {"name": "iUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 69365.0, "pt": 10.16, "lp": 3.83, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x517e54f58b5c587726c577abbcab3e74aa51161e", "src": "https://app.pendle.finance/trade/markets/0x517e54f58b5c587726c577abbcab3e74aa51161e/swap?view=pt&chain=ethereum"}, {"name": "sUSP", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-25", "dtm": 20, "tvl": 63572.0, "pt": 9.44, "lp": 7.55, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x1b246be57145a6baf0f987a3e22274da0f539df2", "src": "https://app.pendle.finance/trade/markets/0x1b246be57145a6baf0f987a3e22274da0f539df2/swap?view=pt&chain=ethereum"}, {"name": "NUSD", "chain": "Ethereum", "ac": "stable", "maturity": "2026-09-24", "dtm": 111, "tvl": 61037.0, "pt": 5.81, "lp": 2.65, "reward": 0.7, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x01d143a7665bb5ae93fbb3120f1f679bb5ad6164", "src": "https://app.pendle.finance/trade/markets/0x01d143a7665bb5ae93fbb3120f1f679bb5ad6164/swap?view=pt&chain=ethereum"}, {"name": "sUSDa", "chain": "Ethereum", "ac": "stable", "maturity": "2026-06-18", "dtm": 13, "tvl": 55423.0, "pt": 4.48, "lp": 4.16, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xadf479af2e305a7a885c43a3fb86c05836fb982f", "src": "https://app.pendle.finance/trade/markets/0xadf479af2e305a7a885c43a3fb86c05836fb982f/swap?view=pt&chain=ethereum"}, {"name": "mTBILL", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-30", "dtm": 55, "tvl": 52952.0, "pt": 3.37, "lp": 3.59, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x72b4032a479fca1fb8ca31a4f62365a9faddfee5", "src": "https://app.pendle.finance/trade/markets/0x72b4032a479fca1fb8ca31a4f62365a9faddfee5/swap?view=pt&chain=ethereum"}, {"name": "AID", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-30", "dtm": 55, "tvl": 52588.0, "pt": 10.11, "lp": 3.09, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x30cc6a97930fae5881f46c24b9ac8f7a244ee224", "src": "https://app.pendle.finance/trade/markets/0x30cc6a97930fae5881f46c24b9ac8f7a244ee224/swap?view=pt&chain=ethereum"}, {"name": "hwHLP", "chain": "Ethereum", "ac": "alt", "maturity": "2026-06-25", "dtm": 20, "tvl": 52133.0, "pt": 9.85, "lp": 2.68, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "il_risk"], "ptier": "Tier 1", "market_address": "0x4b4f0d16bfb4ddf24748a0e058d29552db985fd8", "src": "https://app.pendle.finance/trade/markets/0x4b4f0d16bfb4ddf24748a0e058d29552db985fd8/swap?view=pt&chain=ethereum"}, {"name": "eACRED", "chain": "Ethereum", "ac": "stable", "maturity": "2026-07-02", "dtm": 27, "tvl": 50240.0, "pt": 6.89, "lp": 1.41, "reward": 0.0, "score": 6, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0xfcdc9a156fbea62beb4975fb023d5ecb6c1a733c", "src": "https://app.pendle.finance/trade/markets/0xfcdc9a156fbea62beb4975fb023d5ecb6c1a733c/swap?view=pt&chain=ethereum"}, {"name": "ARM-WETH-stETH", "chain": "Ethereum", "ac": "eth", "maturity": "2026-06-25", "dtm": 20, "tvl": 40514.0, "pt": 4.38, "lp": 4.16, "reward": 0.0, "score": 7, "tier": "Alto", "flags": ["centralized_dependency", "depeg_risk", "il_risk"], "ptier": "Tier 1", "market_address": "0x579a370604dd20b00074a905ecb3c11754e85af4", "src": "https://app.pendle.finance/trade/markets/0x579a370604dd20b00074a905ecb3c11754e85af4/swap?view=pt&chain=ethereum"}];
+const tbody=document.getElementById('vtbody');
+const numk=new Set(['tvl','pt','lp','reward','nf','score']);
+let sortK='tvl',sortDir=-1,filters={chain:new Set(),ac:new Set(),tier:new Set()},q='';
+const CHAINSCAN={Ethereum:'https://etherscan.io/address/',Arbitrum:'https://arbiscan.io/address/',Base:'https://basescan.org/address/'};
+const ACL={stable:'Stable',eth:'ETH',btc:'BTC',alt:'Alt'};
+function shortAddr(a){return a.slice(0,6)+'…'+a.slice(-4)}
+function pct(v){return (v===null||v===undefined)?'<span class="naval">n/a</span>':v.toFixed(2)+'%'}
+function fmtTvl(v){return v>=1e9?'$'+(v/1e9).toFixed(2)+'B':v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1e3).toFixed(0)+'k'}
+function rowHTML(r){
+  const nf=r.flags.length;
+  const fcls=nf>=4?'fcount hi':'fcount';
+  const ftitle=nf?r.flags.map(f=>f.replace(/_/g,' ')).join(', '):'none';
+  const scan=CHAINSCAN[r.chain]||'https://etherscan.io/address/';
+  const matsub=r.dtm!=null?('<div class="vsub">'+r.dtm+'d to maturity</div>'):'';
+  return `<tr>
+    <td><a class="vname vlink" href="${r.src}" target="_blank" rel="noopener" title="Abrir en la app de Pendle ↗">${r.name}</a><div class="vsub">${r.chain} · PT fixed yield</div></td>
+    <td>${r.chain}</td>
+    <td>${r.maturity||'<span class="naval">n/a</span>'}${matsub}</td>
+    <td><span class="tag sm ac-${r.ac}">${ACL[r.ac]||r.ac}</span></td>
+    <td class="num apy" style="color:${r.pt!=null?'var(--accent)':'inherit'}">${pct(r.pt)}</td>
+    <td class="num">${pct(r.lp)}</td>
+    <td class="num">${pct(r.reward)}</td>
+    <td class="num">${fmtTvl(r.tvl)}</td>
+    <td><span class="tier tier-${r.tier}" title="score ${r.score} · ver Metodología">${r.tier}</span></td>
+    <td class="num"><span class="${fcls}" title="${ftitle}">${nf}</span></td>
+    <td><span class="ptier ptier-${r.ptier.replace('Tier ','T')}" title="${r.ptier}">${r.ptier.replace('Tier ','T')}</span></td>
+    <td><a class="addr" href="${scan}${r.market_address}" target="_blank" rel="noopener" title="${r.market_address}">${shortAddr(r.market_address)}</a></td>
+  </tr>`;
+}
+function val(r,k){ if(k==='nf')return r.flags.length;
+  let v=r[k]; if(numk.has(k)){ if(v===null||v===undefined)return -1; return parseFloat(v);} return (''+v).toLowerCase();}
+function render(){
+  let rows=DATA.filter(r=>{
+    if(filters.chain.size&&!filters.chain.has(r.chain))return false;
+    if(filters.ac.size&&!filters.ac.has(r.ac))return false;
+    if(filters.tier.size&&!filters.tier.has(r.tier))return false;
+    if(q){const s=(r.name+' '+r.chain+' '+r.market_address).toLowerCase();if(!s.includes(q))return false;}
+    return true;});
+  rows.sort((a,b)=>{const x=val(a,sortK),y=val(b,sortK);if(x<y)return -1*sortDir;if(x>y)return 1*sortDir;return 0;});
+  tbody.innerHTML=rows.map(rowHTML).join('');
+  const tvl=rows.reduce((s,r)=>s+r.tvl,0);
+  document.getElementById('countline').textContent=`${rows.length} of ${DATA.length} markets shown · ${tvl>=1e9?'$'+(tvl/1e9).toFixed(2)+'B':'$'+(tvl/1e6).toFixed(1)+'M'} net liquidity`;
+}
+document.querySelectorAll('#vt thead th').forEach(th=>{
+  const k=th.dataset.k; if(!k)return;
+  th.addEventListener('click',()=>{
+    if(sortK===k)sortDir*=-1;else{sortK=k;sortDir=numk.has(k)?-1:1;}
+    document.querySelectorAll('#vt thead th').forEach(t=>{t.classList.remove('sorted');const a=t.querySelector('.arr');if(a)a.textContent='▾';});
+    th.classList.add('sorted');th.querySelector('.arr').textContent=sortDir<0?'▾':'▴';
+    render();
+  });
+});
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click',()=>{const f=c.dataset.f,v=c.dataset.v;
+    if(filters[f].has(v)){filters[f].delete(v);c.classList.remove('on');}else{filters[f].add(v);c.classList.add('on');}
+    render();});
+});
+document.getElementById('search').addEventListener('input',e=>{q=e.target.value.toLowerCase().trim();render();});
+render();
+</script>\n</body></html>
